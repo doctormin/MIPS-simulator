@@ -28,7 +28,8 @@ module flowing_light_tb( );
     flowing_light u0(
         .clock(clock),
         .reset(reset),
-        .led(led));
+        .led(led)
+    );
         
     parameter PERIOD = 10;
     always # (PERIOD*2) clock = !clock;
