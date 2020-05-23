@@ -1,0 +1,4 @@
+INFO: [VRFC 10-2263] Analyzing Verilog file "D:/Vivado/archlabs/lab01/lab01.srcs/sources_1/new/flowing_light.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module flowing_light
+INFO: [VRFC 10-2263] Analyzing Verilog file "D:/Vivado/archlabs/lab01/lab01.srcs/sim_1/new/flowing_light_tb.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module flowing_light_tb

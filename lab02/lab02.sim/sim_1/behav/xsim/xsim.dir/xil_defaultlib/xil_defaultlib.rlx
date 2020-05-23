@@ -1,0 +1,8 @@
+0.6
+2018.3
+Dec  7 2018
+00:33:28
+D:/Vivado/archlabs/lab02/lab02.sim/sim_1/behav/xsim/glbl.v,1544155482,verilog,,,,glbl,,,,,,,,
+D:/Vivado/archlabs/lab02/lab02.srcs/sim_1/new/adder_4bits_tb.v,1590155798,verilog,,,,adder_4bits_tb,,,,,,,,
+D:/Vivado/archlabs/lab02/lab02.srcs/sources_1/new/adder_1bit.v,1590151912,verilog,,D:/Vivado/archlabs/lab02/lab02.srcs/sources_1/new/adder_4bits.v,,adder_1bit,,,,,,,,
+D:/Vivado/archlabs/lab02/lab02.srcs/sources_1/new/adder_4bits.v,1590153922,verilog,,D:/Vivado/archlabs/lab02/lab02.srcs/sim_1/new/adder_4bits_tb.v,,adder_4bits,,,,,,,,
