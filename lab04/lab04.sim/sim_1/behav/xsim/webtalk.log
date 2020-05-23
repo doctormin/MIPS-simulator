@@ -2,12 +2,13 @@
 # Webtalk v2018.3 (64-bit)
 # SW Build 2405991 on Thu Dec  6 23:38:27 MST 2018
 # IP Build 2404404 on Fri Dec  7 01:43:56 MST 2018
-# Start of session at: Sat May 23 22:13:31 2020
-# Process ID: 27388
+# Start of session at: Sat May 23 22:38:33 2020
+# Process ID: 15004
 # Current directory: D:/Vivado/archlabs/lab04/lab04.sim/sim_1/behav/xsim
-# Command line: wbtcv.exe -mode batch -source D:/Vivado/archlabs/lab04/lab04.sim/sim_1/behav/xsim/xsim.dir/Register_tb_behav/webtalk/xsim_webtalk.tcl -notrace
+# Command line: wbtcv.exe -mode batch -source D:/Vivado/archlabs/lab04/lab04.sim/sim_1/behav/xsim/xsim.dir/dataMemory_tb_behav/webtalk/xsim_webtalk.tcl -notrace
 # Log file: D:/Vivado/archlabs/lab04/lab04.sim/sim_1/behav/xsim/webtalk.log
 # Journal file: D:/Vivado/archlabs/lab04/lab04.sim/sim_1/behav/xsim\webtalk.jou
 #-----------------------------------------------------------
-source D:/Vivado/archlabs/lab04/lab04.sim/sim_1/behav/xsim/xsim.dir/Register_tb_behav/webtalk/xsim_webtalk.tcl -notrace
-INFO: [Common 17-206] Exiting Webtalk at Sat May 23 22:13:33 2020...
+source D:/Vivado/archlabs/lab04/lab04.sim/sim_1/behav/xsim/xsim.dir/dataMemory_tb_behav/webtalk/xsim_webtalk.tcl -notrace
+webtalk_transmit: Time (s): cpu = 00:00:00 ; elapsed = 00:00:06 . Memory (MB): peak = 83.129 ; gain = 0.805
+INFO: [Common 17-206] Exiting Webtalk at Sat May 23 22:38:39 2020...
