@@ -24,7 +24,7 @@ module Registers(
     input          clk,
     input  [25:21] readReg1, 
     input  [20:16] readReg2, 
-    input  [4:0  ] writeReg, //待写入的寄存器编号
+    input  [4 :0 ] writeReg, //待写入的寄存器编号
     input  [31:0 ] writeData, //待写入的数据
     input          regWrite, //写入信号
     output [31:0 ] readData1, //读出的数据1
