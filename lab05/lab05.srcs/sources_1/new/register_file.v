@@ -22,7 +22,7 @@
 module register_file #
                     (
                         parameter DATA_WIDTH    = 32,
-                        parameter ADDRESS_WIDTH = 6
+                        parameter ADDRESS_WIDTH = 5
                     )
                     (
                         input                           clk,
