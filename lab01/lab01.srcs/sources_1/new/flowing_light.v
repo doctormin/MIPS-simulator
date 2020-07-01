@@ -21,9 +21,9 @@
 
 
 module flowing_light(
-    input clock,
-    input reset,
-    output [7:0] led
+        input clock,
+        input reset,
+        output [7:0] led
     );
     reg [23:0] cnt_reg;
     reg [7:0] light_reg;

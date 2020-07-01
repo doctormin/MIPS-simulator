@@ -1,7 +1,4 @@
-Running: xsim.dir/signext_tb_behav/xsimk.exe -simmode gui -wdb signext_tb_behav.wdb -simrunnum 0 -socket 61289
+Running: xsim.dir/signext_tb_behav/xsimk.exe -simmode gui -wdb signext_tb_behav.wdb -simrunnum 0 -socket 51570
 Design successfully loaded
-Design Loading Memory Usage: 5244 KB (Peak: 5244 KB)
+Design Loading Memory Usage: 6032 KB (Peak: 6032 KB)
 Design Loading CPU Usage: 46 ms
-Simulation completed
-Simulation Memory Usage: 5892 KB (Peak: 5892 KB)
-Simulation CPU Usage: 61 ms

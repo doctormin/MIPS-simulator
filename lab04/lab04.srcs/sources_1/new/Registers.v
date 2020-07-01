@@ -34,7 +34,7 @@ module Registers(
     //Read Data
     assign readData1 = Register[readReg1];
     assign readData2 = Register[readReg2];
-    always @ (posedge clk) begin
+    always @ (negedge clk) begin
         //Write Data
         if(regWrite) begin
             Register[writeReg] <= writeData;

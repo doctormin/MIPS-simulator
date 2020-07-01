@@ -23,12 +23,11 @@
 
 module ALU_decoder	#(
                         parameter ADDRESS_WIDTH = 32,
-                        parameter DATA_WIDTH = 32,
-                        parameter ALUCTL_WIDTH = 8
+                        parameter DATA_WIDTH = 32
 				     )
                      (
                         input [DATA_WIDTH-1:0] i_instruction,
-                        output reg [ALUCTL_WIDTH - 1:0] o_alu_ctr
+                        output reg [3:0] o_alu_ctr
                      );
 
     localparam ALU_ADD   = 1,

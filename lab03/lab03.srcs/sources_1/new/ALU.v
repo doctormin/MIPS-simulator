@@ -34,14 +34,32 @@ module ALU(
               OR  = 4'b0001,
               ADD = 4'b0010,
               SUB = 4'b0110,
-              SLT = 4'b0110,
+              SLT = 4'b0111,
               NOR = 4'b1100;
 
     always @ (src1 or src2 or aluCtr)begin
         case (aluCtr)
-            AND : ALURes = src1 & src2;
-            OR  : ALURes = src1 | src2;
-            ADD : ALURes = src1 + src2;
+            AND : begin
+                    ALURes = src1 & src2;
+                    if (ALURes == 0)
+                        Zero = 1;
+                    else 
+                        Zero = 0; 
+                  end
+            OR : begin
+                    ALURes = src1 | src2;
+                    if (ALURes == 0)
+                        Zero = 1;
+                    else 
+                        Zero = 0; 
+                  end
+            ADD : begin
+                    ALURes = src1 + src2;
+                    if (ALURes == 0)
+                        Zero = 1;
+                    else 
+                        Zero = 0; 
+                  end
             SUB : begin
                     ALURes = src1 - src2;
                     if (ALURes == 0)
@@ -50,12 +68,22 @@ module ALU(
                         Zero = 0;   
                   end 
             SLT : begin
-                    if (src1 < src2)
-                        ALURes = 1;
-                    else
-                        ALURes = 0;
+                    ALURes = ($signed(src1) < $signed(src2));
+                    if (ALURes == 0)
+                        Zero = 1;
+                    else 
+                        Zero = 0;   
                   end
-            NOR : ALURes = ~(src1 ^ src2);
+            NOR : begin
+                    ALURes = ~(src1 ^ src2);
+                    if (ALURes == 0)
+                        Zero = 1;
+                    else 
+                        Zero = 0; 
+                  end
+            default: begin
+			        $display("%x:illegal ALU ctl code %b\n", 0, aluCtr);
+		          end
         endcase 
     end
     assign aluRes = ALURes;

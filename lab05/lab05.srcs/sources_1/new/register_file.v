@@ -22,13 +22,13 @@
 module register_file #
                     (
                         parameter DATA_WIDTH    = 32,
-                        parameter ADDRESS_WIDTH = 5
+                        parameter REG_ADDRESS_WIDTH = 5
                     )
                     (
                         input                           clk,
-                        input  [ADDRESS_WIDTH-1:0]      i_read_addr1,
-                        input  [ADDRESS_WIDTH-1:0]      i_read_addr2,
-                        input  [ADDRESS_WIDTH-1:0]      i_write_addr,
+                        input  [REG_ADDRESS_WIDTH-1:0]  i_read_addr1,
+                        input  [REG_ADDRESS_WIDTH-1:0]  i_read_addr2,
+                        input  [REG_ADDRESS_WIDTH-1:0]  i_write_addr,
                         input  [DATA_WIDTH-1   :0]      i_write_data,
                         input                           i_RegWrite,
                         output reg [DATA_WIDTH-1:0]     o_data1_rs,
@@ -42,7 +42,7 @@ always @(i_read_addr1 or i_read_addr2) begin
     o_data2_rt <= reg_file[i_read_addr2];
 end
 
-always @(posedge clk) begin
+always @(negedge clk) begin
     if(i_RegWrite)
         reg_file[i_write_addr] = i_write_data;
 end

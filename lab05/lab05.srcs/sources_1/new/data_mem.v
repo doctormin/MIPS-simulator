@@ -31,17 +31,17 @@ module data_mem #
                     input      [ADDRESS_WIDTH-1:0] i_address,
                     input      [ADDRESS_WIDTH-1:0] i_write_data,
                     
-                    output reg [DATA_WIDTH-1   :0] o_data
+                    output reg [DATA_WIDTH-1   :0] o_read_data
                 );
 
 reg [DATA_WIDTH-1:0] D_memory [0:99];
 
 always @(*) begin
     if(MemRead)
-        o_data = D_memory[i_address];
+        o_read_data = D_memory[i_address];
 end
 
-always @(posedge clk) begin
+always @(negedge clk) begin
     if(MemWrite)
         D_memory[i_address] = i_write_data;
 end

@@ -101,9 +101,9 @@ module Ctr(
         end
         //j
         6'b000010: begin
-            RegDst = 0;
+            RegDst = 1'bx;
             ALUSrc = 0;
-            MemToReg = 0;
+            MemToReg = 1'bx;
             RegWrite = 0;
             MemRead = 0;
             MemWrite = 0;

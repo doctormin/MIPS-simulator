@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 module ALUCtr(
-        input  [5:0] opcode,
+        input  [5:0] funct,
         input  [1:0] ALUOp,
         output [3:0] AlUCtrOut
     );
@@ -28,8 +28,8 @@ module ALUCtr(
     reg [3:0] aluCtrOut;
     assign AlUCtrOut = aluCtrOut; 
 
-    always @ (ALUOp or opcode) begin
-        casex({ALUOp, opcode})
+    always @ (ALUOp or funct) begin
+        casex({ALUOp, funct})
             /*
             8'b00xxxxxx : aluCtrOut = 4'b0010;
             8'bx1xxxxxx : aluCtrOut = 4'b0110;
@@ -46,6 +46,7 @@ module ALUCtr(
             8'b10000100 : aluCtrOut = 4'b0000;
             8'b10000101 : aluCtrOut = 4'b0001;
             8'b10001010 : aluCtrOut = 4'b0111;
+
         endcase
     end
 endmodule

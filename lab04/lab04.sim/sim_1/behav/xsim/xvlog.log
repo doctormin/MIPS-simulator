@@ -1,4 +1,0 @@
-INFO: [VRFC 10-2263] Analyzing Verilog file "D:/Vivado/archlabs/lab04/lab04.srcs/sources_1/new/signext.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module signext
-INFO: [VRFC 10-2263] Analyzing Verilog file "D:/Vivado/archlabs/lab04/lab04.srcs/sim_1/new/signext_tb.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module signext_tb

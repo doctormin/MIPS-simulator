@@ -23,10 +23,15 @@
 module signext_tb();
     reg  [15:0] inst;
     wire [31:0] data;
-    signext extend(
-        .inst(inst),
-        .data(data)
-    );
+    signext #(
+                .from(16),
+                .to(32)
+             ) 
+             extend
+             (
+                .inst(inst),
+                .data(data)
+             );
     initial begin
         #100;
         inst = 16'b0111111111111111;

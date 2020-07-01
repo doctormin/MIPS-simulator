@@ -23,23 +23,23 @@
 module ALUCtr_tb();
     wire [3:0] ALUCtrOut;
     reg  [1:0] ALUOp;
-    reg  [5:0] Funct;
+    reg  [5:0] funct;
     ALUCtr aluCtr(
-        .Funct(Funct),
+        .funct(funct),
         .ALUOp(ALUOp),
         .AlUCtrOut(ALUCtrOut)
     );
     initial begin
-        Funct = 6'b000000;
+        funct = 6'b000000;
         ALUOp = 2'b00;
-        #100 Funct = 6'bxxxxxx;
+        #100 funct = 6'bxxxxxx;
         #60 ALUOp = 2'bx1;
         #60;
         ALUOp = 2'b1x;
-        Funct = 6'bxx0000;
-        #60 Funct = 6'bxx0010;
-        #60 Funct = 6'bxx0100;
-        #60 Funct = 6'bxx0101;
-        #60 Funct = 6'bxx1010;
+        funct = 6'bxx0000;
+        #60 funct = 6'bxx0010;
+        #60 funct = 6'bxx0100;
+        #60 funct = 6'bxx0101;
+        #60 funct = 6'bxx1010;
     end
 endmodule

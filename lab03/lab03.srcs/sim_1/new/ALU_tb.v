@@ -37,9 +37,9 @@ module ALU_tb();
               OR  = 4'b0001,
               ADD = 4'b0010,
               SUB = 4'b0110,
-              SLT = 4'b0110,
+              SLT = 4'b0111,
               NOR = 4'b1100;
-    
+              
     initial begin
         src1 <= 0;
         src2 <= 0;
@@ -55,5 +55,17 @@ module ALU_tb();
         src1 = 4'b1101;
         src2 = 4'b1011;
         aluCtr = AND;
+        #100;
+        src1 = 4'b1101;
+        src2 = 4'b0010;
+        aluCtr = OR;
+        #100
+        src1 = 4'b1101;
+        src2 = 4'b0010;
+        aluCtr = NOR;
+        #100
+        src1 = 4'b0001;
+        src2 = 4'b0010;
+        aluCtr = SLT;
     end
 endmodule

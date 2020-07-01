@@ -19,13 +19,18 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-
-module signext(
-    input [15:0] inst,
-    output [31:0] data
-    );
-    wire [31:0] Data;
-    wire s_bit;
-    assign data = Data;
-    assign data = {{16{inst[15]}}, inst};
+module signext
+              #(
+                parameter from = 16,
+                parameter to = 32
+              )
+              (
+                input  [from-1:0] inst,
+                output [to-1  :0] data
+              );
+    genvar i;
+    assign data[from-1:0] = inst[from-1:0];
+    for(i = from; i < to; i = i + 1) begin
+      assign data[i] = inst[from-1];
+    end
 endmodule

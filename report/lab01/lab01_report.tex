@@ -1,0 +1,133 @@
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[12pt,a4paper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{xeCJK}
+\usepackage{listings}
+\usepackage{graphicx} % Required for the inclusion of images
+\usepackage{subfigure} % Required for the inclusion of images
+\usepackage{natbib} % Required to change bibliography style to APA
+\usepackage{amsmath} % Required for some math elements 
+\usepackage{tcolorbox}
+\usepackage{sectsty}
+\usepackage{xcolor}
+\usepackage{color}
+\usepackage{fix-cm}
+\usepackage{url}
+\usepackage[nottoc,numbib]{tocbibind} % show refernce in toc
+\usepackage[vlined,ruled,linesnumbered]{algorithm2e}
+\usepackage{subfiles}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{hyperref}
+\usepackage{indentfirst}
+\usepackage{underscore}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=cyan,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}  
+
+%----------------------------------------------------------------------------------------
+%	DOCUMENT INFORMATION
+%----------------------------------------------------------------------------------------
+
+\title{\textbf{计算机系统结构实验报告\ 实验1}} % Title
+\author{赵一民\quad 518030910188\\ doctormin@sjtu.edu.cn } % Author name and email
+\date{\today} % Date for the report
+
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{mauve}{rgb}{0.58,0,0.50}
+
+\lstset{
+language=Verilog,                             % Code langugage
+basicstyle=\ttfamily,             % Code font, Examples: \footnotesize, \ttfamily
+keywordstyle=\color{purple},            % Keywords font ('*' = uppercase)
+commentstyle=\em\color{gray},           % Comments font
+numbers=left,                           % Line nums position
+numberstyle=\tiny\ttfamily,             % Line-numbers fonts
+stringstyle=\color{mauve},
+stepnumber=1,                           % Step between two line-numbers
+numbersep=5pt,                          % How far are line-numbers from code
+frame=tb,                             % A frame around the code
+aboveskip=3mm,
+belowskip=3mm,
+tabsize=4,                              % Default tab size
+captionpos=b,                           % Caption-position = bottom
+breaklines=true,                        % Automatic line breaking?
+breakatwhitespace=false,                % Automatic breaks only at whitespace?
+showspaces=false,                       % Dont make spaces visible
+showstringspaces=false,
+showtabs=false,                         % Dont make tabls visible
+basewidth=0.5em,
+morekeywords={},
+columns=flexible
+}
+
+\def\inline{\lstinline[basicstyle=\ttfamily] 
+}
+
+\begin{document}
+\maketitle % Insert the title, author and date
+
+%----------------------------------------------------------------------------------------
+
+\section{实验目的}
+\begin{enumerate}
+    \item 熟悉Xilinx逻辑设计工具Vivado的基本操作
+    \item 掌握使用Verilog HDL进行简单的逻辑设计
+    \item 使用功能仿真
+\end{enumerate}
+\section{原理分析}
+\subsection{Flowing Light的设计}
+\subsubsection{外部抽象}
+\includegraphics[width=0.9\textwidth]{lab01-overview.jpg}
+\begin{itemize}
+    \item \texttt{clock}是时钟信号，在激励中可以设定周期
+    \item \texttt{reset}是复位信号，可以将\texttt{counter}置为0以及将\texttt{led}置为\lstinline{8'h01}
+    \item \texttt{counter}在代码中写成了\lstinline{reg [23:0] cnt_reg}, 每次上升沿会递增，因此范围是\lstinline{0 ~ 24'hffffff}
+    \item \texttt{led}是唯一的输出信号，每当\texttt{counter}达到\lstinline{24'hffffff}时就加一，如果加到了\lstinline{8'h80}就在下一轮变回\lstinline{8'h01}
+\pagebreak
+\subsubsection{代码实现}
+\begin{lstlisting}
+module flowing_light(
+        input clock,
+        input reset,
+        output [7:0] led
+    );
+    reg [23:0] cnt_reg;
+    reg [7:0] light_reg;
+    always @ (posedge clock) 
+        begin
+            if(reset)
+                cnt_reg <= 0;
+            else
+                cnt_reg <= cnt_reg + 1;
+        end
+    always @ (posedge clock) 
+        begin
+            if(reset)
+                light_reg <= 8'h01;
+            else if (cnt_reg == 24'hffffff) 
+                 begin
+                     if(light_reg == 8'h80)
+                        light_reg <= 8'h01;
+                     else
+                        light_reg <= light_reg << 1;
+                 end
+        end
+    assign led = light_reg;
+endmodule
+\end{lstlisting}
+\end{itemize}
+
+\section{实验感想}
+
+%----------------------------------------------------------------------------------------
+\pagebreak
+
+\end{document}

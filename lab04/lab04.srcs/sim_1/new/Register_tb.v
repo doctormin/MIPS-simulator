@@ -48,7 +48,7 @@ module Register_tb();
         readReg2 = 5'bxxxxx;
         #285;
         regWrite = 1'b1;
-        writeReg = 5'b10101;
+        writeReg = 5'b10101; 
         writeData = 32'b11111111111111110000000000000000;
         
         #200;

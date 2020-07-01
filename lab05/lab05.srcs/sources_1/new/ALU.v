@@ -21,8 +21,7 @@
 
 
 module ALU #(
-                parameter DATA_WIDTH    = 32,
-                parameter ALU_CTR_WIDTH = 8
+                parameter DATA_WIDTH    = 32
             )
             (
                 //input
@@ -185,7 +184,7 @@ always @(*) begin
         /*
            SLT  : rd = (rs < rt)
            SLTI : rt = (rs < imm)
-           BGEZ / BGTZ / BGEZAL / BLEZ / BLTZ / BLTZAL : ?  = rs ? 0 (without overflow exception)
+           BGEZ / BGEZAL / BLTZ / BLTZAL : 此时i_oprand2 = 0
         */
         ALU_SLT:  begin
             if($signed(i_oprand1) < $signed(i_oprand2))
@@ -213,7 +212,8 @@ always @(*) begin
                 o_zero = 1'b0;
         end
 
-        /*
+        /* 
+           此时 i_oprand2 = 0
            BGTZ
            BLEZ
         */
