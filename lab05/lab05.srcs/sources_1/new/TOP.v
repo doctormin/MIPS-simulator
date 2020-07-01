@@ -47,7 +47,7 @@ module TOP (input clk);
             .o_cpu_MemRead(TOP_MemRead)
         );
         
-    intruction_mem #(DATA_WIDTH, ADDRESS_WIDTH)
+    instruction_mem #(DATA_WIDTH, ADDRESS_WIDTH)
                    TOP_instuction_mem
                    (
                        .i_read_address(TOP_pc),

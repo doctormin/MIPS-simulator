@@ -5,7 +5,7 @@
 // 
 // Create Date: 2020/05/23 23:07:05
 // Design Name: 
-// Module Name: signext
+// Module Name: sign_extender
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module signext
+module sign_extender
               #(
                 parameter from = 16,
                 parameter to = 32

@@ -76,7 +76,7 @@ module CPU #(
     assign instruction = i_cpu_instruction;   //读入instruction
     assign o_cpu_out = pc;                    //向instruction mem提供pc
     /*
-    intruction_mem #(DATA_WIDTH, ADDRESS_WIDTH)
+    instruction_mem #(DATA_WIDTH, ADDRESS_WIDTH)
                    CPU_instuction_mem
                    (
                        .i_read_address(pc),
@@ -164,6 +164,7 @@ module CPU #(
                    CPU_register_file
                    (
                        .clk(clk),
+                       .reset(reset),
                        .i_read_addr1(reg_read_addr1),
                        .i_read_addr2(reg_read_addr2),
                        .i_write_data(reg_write_data),

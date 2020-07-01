@@ -26,6 +26,7 @@ module register_file #
                     )
                     (
                         input                           clk,
+                        input                           reset,
                         input  [REG_ADDRESS_WIDTH-1:0]  i_read_addr1,
                         input  [REG_ADDRESS_WIDTH-1:0]  i_read_addr2,
                         input  [REG_ADDRESS_WIDTH-1:0]  i_write_addr,
@@ -42,9 +43,21 @@ always @(i_read_addr1 or i_read_addr2) begin
     o_data2_rt <= reg_file[i_read_addr2];
 end
 
+always@(*) begin
+    if(reset == 1'b1) begin
+        genvar i;
+        for(i = 0; i < 32; i = i+1)
+            reg_file[i] = 32'h0000;
+    end
+end
 always @(negedge clk) begin
     if(i_RegWrite)
         reg_file[i_write_addr] = i_write_data;
 end
 
+initial begin
+    genvar i;
+    for(i = 0; i < 32; i = i+1)
+        reg_file[i] = 32'h0000;
+end
 endmodule  //register_file
