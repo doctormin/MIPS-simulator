@@ -35,9 +35,11 @@ module instruction_mem #
         for(i = 0; i < memSize; i = i + 1) begin
             I_memory[i] = 0;
         end
-        //"C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/DUMP/ALUtest1.mem"
-        //"C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/DUMP/BranchJump.mem"
-        $readmemh("C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/DUMP/MemTest.mem", I_memory);
+        //我用vivado尝试了多次相对路径写法，却总是读取失败，一直找不到原因，因此烦请老师使用绝对路径
+        //test1 -> ".../lab05/lab05.srcs/sources_1/imports/new/DUMP/ALUtest1.mem"
+        //test2 -> ".../lab05/lab05.srcs/sources_1/imports/new/DUMP/BranchJump.mem"
+        //test3 -> ".../lab05/lab05.srcs/sources_1/imports/new/DUMP/MemTest.mem"
+        $readmemh("C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/DUMP/ALUtest1.mem", I_memory);
         $display("dump finished!\n");
     end
     always @(*) begin
