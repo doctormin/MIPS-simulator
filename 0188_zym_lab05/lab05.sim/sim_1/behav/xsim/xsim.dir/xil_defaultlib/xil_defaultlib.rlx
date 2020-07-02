@@ -1,0 +1,21 @@
+0.6
+2018.3
+Dec  7 2018
+00:33:28
+C:/Users/18123/Desktop/lab05/lab05.sim/sim_1/behav/xsim/glbl.v,1544155482,verilog,,,,glbl,,,,,,,,
+C:/Users/18123/Desktop/lab05/lab05.srcs/sim_1/new/CPU_tb.v,1593599681,verilog,,,,CPU_tb,,,../../../../lab05.srcs/sources_1/imports/new,,,,,
+C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/ALU.v,1593659183,verilog,,C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/ALU_decoder.v,,ALU,,,../../../../lab05.srcs/sources_1/imports/new,,,,,
+C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/ALU_decoder.v,1593672901,verilog,,C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/CPU.v,C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/ISA.v,ALU_decoder,,,../../../../lab05.srcs/sources_1/imports/new,,,,,
+C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/CPU.v,1593678506,verilog,,C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/TOP.v,C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/ISA.v,CPU,,,../../../../lab05.srcs/sources_1/imports/new,,,,,
+C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/ISA.v,1593675343,verilog,,,,,,,,,,,,
+C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/TOP.v,1593657630,verilog,,C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/adder.v,C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/ISA.v,TOP,,,../../../../lab05.srcs/sources_1/imports/new,,,,,
+C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/adder.v,1593447438,verilog,,C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/control_unit.v,,adder,,,../../../../lab05.srcs/sources_1/imports/new,,,,,
+C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/control_unit.v,1593678845,verilog,,C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/data_mem.v,C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/ISA.v,control_unit,,,../../../../lab05.srcs/sources_1/imports/new,,,,,
+C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/data_mem.v,1593639251,verilog,,C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/instruction_mem.v,,data_mem,,,../../../../lab05.srcs/sources_1/imports/new,,,,,
+C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/instruction_mem.v,1593669727,verilog,,C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/mux2to1.v,,instruction_mem,,,../../../../lab05.srcs/sources_1/imports/new,,,,,
+C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/mux2to1.v,1593664969,verilog,,C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/mux3to1.v,,mux2to1,,,../../../../lab05.srcs/sources_1/imports/new,,,,,
+C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/mux3to1.v,1593664942,verilog,,C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/pc_updater.v,,mux3to1,,,../../../../lab05.srcs/sources_1/imports/new,,,,,
+C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/pc_updater.v,1593612783,verilog,,C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/register_file.v,C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/ISA.v,pc_updater,,,../../../../lab05.srcs/sources_1/imports/new,,,,,
+C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/register_file.v,1593607247,verilog,,C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/shift2bits.v,,register_file,,,../../../../lab05.srcs/sources_1/imports/new,,,,,
+C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/shift2bits.v,1593450302,verilog,,C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/sign_extender.v,,shift2bits,,,../../../../lab05.srcs/sources_1/imports/new,,,,,
+C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/sign_extender.v,1593596464,verilog,,C:/Users/18123/Desktop/lab05/lab05.srcs/sim_1/new/CPU_tb.v,,sign_extender,,,../../../../lab05.srcs/sources_1/imports/new,,,,,

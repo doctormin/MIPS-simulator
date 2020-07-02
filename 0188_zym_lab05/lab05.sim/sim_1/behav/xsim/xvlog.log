@@ -1,0 +1,32 @@
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/ALU.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ALU
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/ALU_decoder.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ALU_decoder
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/CPU.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module CPU
+INFO: [VRFC 10-2458] undeclared symbol o_cpu_out, assumed default net type wire [C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/CPU.v:84]
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/TOP.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module TOP
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/adder.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module adder
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/control_unit.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module control_unit
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/data_mem.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module data_mem
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/instruction_mem.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module instruction_mem
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/mux2to1.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module mux2to1
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/mux3to1.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module mux3to1
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/pc_updater.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module pc_updater
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/register_file.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module register_file
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/shift2bits.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module shift2bits
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/sign_extender.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module sign_extender
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/18123/Desktop/lab05/lab05.srcs/sim_1/new/CPU_tb.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module CPU_tb
+WARNING: [VRFC 10-2096] empty statement in sequential block [C:/Users/18123/Desktop/lab05/lab05.srcs/sim_1/new/CPU_tb.v:51]

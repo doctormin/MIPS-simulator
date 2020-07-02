@@ -1,0 +1,24 @@
+addiu   $t1, 0x2                 #t1 = 2
+add     $t2, $t1, $zero          #t2 = 2
+add     $t3, $t1, $t2            #t3 = 4
+sub     $t0, $t3, $t1            #t0 = 2
+addi    $t0, 0x10                #t0 = 12h
+subu    $t3, $t0, $t1            #t3 = 0010h
+addiu   $t4, 0x0FF00             #t4 = FF00h
+and     $t0, $t4, $t3            #t0 = 0000h
+or      $to, $t4, $t3            #t0 = FF10h
+andi    $t0, $t4, 0x8811         #t0 = 8800h
+ori     $t0, $t4, 0FFh           #t0 = FFFFh
+nor     $t0, $t4, $t3            #t0 = 00EFh
+xor     $t0, $t4, $t3            #t0 = FF10h
+sll     $t0, $t0, 0x4            #t0 = 000F_F100h
+sllv    $t0, $t0, $t3            #t0 = F100_0000h
+sra     $t0, $t0, 0x4            #t0 = FF10_0000h
+srlv    $t0, $t0, $t3            #t0 = 0000_FF10h
+slt     $t0, $t0, $t3            #t0 = 0
+lui     $t0, 0x0F                #t0 = F000_0000h
+sltu    $t1, $t0, $t3            #t1 = 1
+sltiu   $t1, $t0, 0x3            #t1 = 1
+slti    $t1, $t0, 0x4            #t1 = 0
+
+
