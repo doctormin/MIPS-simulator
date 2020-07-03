@@ -104,7 +104,7 @@
 `define fun    5:0
 `define imm    15:0
 `define sa     4:0
-`define GPR31 5'b11111
+
 
 `define isLoad(i) `get_op(i) == `OP_LB||`get_op(i) == `OP_LBU||`get_op(i) == `OP_LH||`get_op(i) == `OP_LHU||`get_op(i) == `OP_LW  
 `define isJump(instruction) `get_op(instruction) == `OP_J 

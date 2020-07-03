@@ -22,11 +22,10 @@
 `include "ISA.v"
 
 module ALU_decoder	#(
-                        parameter ADDRESS_WIDTH = 32,
-                        parameter DATA_WIDTH = 32
+                        parameter W = 32
 				     )
                      (
-                        input [DATA_WIDTH-1:0] i_instruction,
+                        input [W-1:0] i_instruction,
                         output reg [3:0] o_alu_ctr
                      );
     localparam ALU_ADD   = 0,

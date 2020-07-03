@@ -1,3 +1,4 @@
+`timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
 // Engineer: 
@@ -17,3 +18,25 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
+`include "ISA.v"
+module  EX_MEM  #
+                (
+                    parameter W = 32
+                )
+                (
+                    input       clk,
+
+                    input [W-1:0] i_EX_alu_res, 
+                    input [W-1:0] i_EX_instruction,
+                    input [W-1:0] i_EX_pc,
+                    output reg [W-1:0] o_MEM_alu_res,
+                    output reg [W-1:0] o_MEM_instruction,
+                    output reg [W-1:0] o_MEM_pc
+                );
+    always @(negedge clk) begin
+       o_MEM_alu_res     <= i_EX_alu_res;
+       o_MEM_instruction <= i_EX_instruction;
+       o_MEM_pc          <= i_EX_pc;
+       
+    end
+endmodule //ID_EX

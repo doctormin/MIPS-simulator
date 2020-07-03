@@ -21,216 +21,183 @@
 `include "ISA.v"
 
 module CPU #(
-                parameter ADDRESS_WIDTH     = 32,
-                parameter DATA_WIDTH        = 32,
+                parameter W = 32,
                 parameter REG_ADDRESS_WIDTH = 5
             )
             (
                 input  clk,
                 input  reset,
-                input  [DATA_WIDTH-1:0]    i_cpu_instruction,
-                input  [DATA_WIDTH-1:0]    i_cpu_dmem_read_data,
-                output [ADDRESS_WIDTH-1:0] o_cpu_pc,              //CPU->instruction mem的pc
-                output [DATA_WIDTH-1:0]    o_cpu_dmem_addr,       //CPU->data mem的访问地�?
-                output [DATA_WIDTH-1:0]    o_cpu_dmem_write_data, //CPU->data mem的写入数�?
+                input  [W-1:0]    IF_instruction,
+                input  [W-1:0]    i_cpu_dmem_read_data,
+                output [W-1:0] o_cpu_pc,              //CPU->instruction mem的pc
+                output [W-1:0]    o_cpu_dmem_addr,       //CPU->data mem的访问地�?
+                output [W-1:0]    o_cpu_dmem_write_data, //CPU->data mem的写入数�?
                 output [1:0]               o_cpu_dmem_mode,
                 output                     o_cpu_MemWrite,
                 output                     o_cpu_MemRead
             );
+    //=====IF====
+    reg  [W-1:0] IF_pc;
+    wire [W-1:0] IF_new_pc;
+    wire         flush_ID_EX;
+    wire         flush_IF_ID;
+    //=====ID====
+    wire [W-1:0] ID_instruction;
+    wire [W-1:0] ID_pc;
+    wire flush;
+    wire [W-1:0] ID_reg_read_rs;
+    wire [W-1:0] ID_reg_read_rt;
+    //=====EX=====
+    wire [W-1:0] EX_instruction;
+    wire [W-1:0] EX_pc;
+    wire [W-1:0] EX_rs;
+    wire [W-1:0] EX_rt;
+    wire [W-1:0] EX_branch_des;   //branch的目的地
+    wire [W-1:0] EX_imm_extended;  //imm经过extend之后的结果
+    wire [W-1:0] EX_alu_oprand1;
+    wire [W-1:0] EX_alu_oprand2;
+    wire [W-1:0] EX_alu_res;
+    wire [4  :0] EX_alu_ctr;
+    wire         EX_alu_zero;
+    wire         EX_branch_taken;
+    wire         EX_isJR;
+    //=====MEM====
+    wire [W-1:0] MEM_instruction;
+    wire [W-1:0] MEM_pc;
+    //=====WB=====
+    wire [W-1:0] WB_instruction;
+    wire [W-1:0] WB_pc;
+    wire [W-1:0] WB_dmem_read_data;
+    wire [W-1:0] WB_reg_write_data;
+    wire [W-1:0] WB_reg_write_addr;
+    //===Control Signals===
+    wire [1:0]   RegDst;
+    wire [1:0]   MemtoReg;
+    wire         RegWrite;
 
-    //ALU
-    wire [DATA_WIDTH-1:0]      alu_oprand1;
-    wire [DATA_WIDTH-1:0]      alu_oprand2;
-    wire [DATA_WIDTH-1:0]      alu_res;
-    wire [3:0]                 alu_ctr;
-    wire                       alu_zero;
-    //Instruction Mem
-    wire [DATA_WIDTH-1:0]      instruction;
-    //PC
-    reg  [ADDRESS_WIDTH-1:0]   pc;   //在上升沿，pc <- new_pc, 如果是reset上升沿，那么 pc <- 0
-    wire [ADDRESS_WIDTH-1:0]   pc_plus_8; //用于JAL & BLTZAL & BGEZAL 更新GPR[31]
-    wire [ADDRESS_WIDTH-1:0]   new_pc;
-    //Register File
-    wire [DATA_WIDTH-1:0]      reg_read_data1_rs;
-    wire [DATA_WIDTH-1:0]      reg_read_data2_rt;
-    wire [DATA_WIDTH-1:0]      reg_write_data;
-    wire [REG_ADDRESS_WIDTH-1:0] reg_write_addr;
-    //Data Mem
-    wire [DATA_WIDTH-1:0]      dmem_write_data;
-    wire [DATA_WIDTH-1:0]      dmem_read_data;
-    //Control Signal
-    wire [1:0]                 mode;    //data mem的访存模式
-    wire                       MemRead;
-    wire                       MemWrite;
-    wire                       RegWrite; 
-    wire [1:0]                 MemtoReg; //0:alu_res 1:dmem_read_data 2:pc_plus_8
-    wire                       ALUSrc1;  //0:rs      1:sa 
-    wire [1:0]                 ALUSrc2;  //0:rt      1:imm<<16        2:0
-    wire [1:0]                 RegDst;   //0:rt      1:rd              2:pc+8
-    //Branch 
-    wire [ADDRESS_WIDTH-1:0]   imm_after_signext; //also used for immediate-ALU
-    wire [ADDRESS_WIDTH-1:0]   branch_offset;
-    //----------------------------------IF-----------------------------------
-    //update PC
-    assign o_cpu_pc = pc;
-    always @(posedge clk) begin
-        if(reset == 1'b1)
-            pc = 32'h00000000;
-        else
-            pc = new_pc;
-    end
-    //Instruction Mem
-    assign instruction = i_cpu_instruction;   //读入instruction
-    assign o_cpu_out = pc;                    //向instruction mem提供pc
-    /*
-    instruction_mem #(DATA_WIDTH, ADDRESS_WIDTH)
-                   CPU_instuction_mem
-                   (
-                       .i_read_address(pc),
-                       .o_instruction(instruction)
-                   );
-    */
-    //----------------------------------ID-----------------------------------
-    //Control Unit
-    control_unit   #(DATA_WIDTH)
-                   CPU_control_unit
-                   (
-                       .i_instruction(instruction),
-                       .MemRead(MemRead),
-                       .MemWrite(MemWrite),
-                       .mode(mode),
-                       .MemtoReg(MemtoReg),
-                       .ALUSrc1(ALUSrc1),
-                       .ALUSrc2(ALUSrc2),
-                       .RegWrite(RegWrite),
-                       .RegDst(RegDst)
-                   );
-    //ALU decoder
-    ALU_decoder    #(ADDRESS_WIDTH, DATA_WIDTH)
-                   CPU_ALU_decoder
-                   (
-                       .i_instruction(instruction),
-                       .o_alu_ctr(alu_ctr)
-                   );
-    //----------------------------------EX-----------------------------------
-    //ALU
-    ALU            #(DATA_WIDTH)
-                   CPU_ALU
-                   (
-                       .i_oprand1(alu_oprand1),
-                       .i_oprand2(alu_oprand2),
-                       .i_alu_ctr(alu_ctr),
-                       .o_zero(alu_zero),
-                       .o_alu_res(alu_res)
-                   );
-    //compute branch offset
-    sign_extender #(.from(16), .to(32)) 
-                  br_sign_extender
-                  (
-                      instruction[15:0], 
-                      imm_after_signext
-                  );
-    shift2bits    #(DATA_WIDTH) 
-                  br_shift2bits 
-                  (
-                      .i_op(imm_after_signext), 
-                      .o_ans(branch_offset)
-                  );
-    //PC updater
-    pc_updater     #(ADDRESS_WIDTH)
-                   CPU_pc_updater
-                   (
-                       .i_pc_old(pc),
-                       .i_instruction(instruction),
-                       .i_branch_offset(branch_offset),
-                       .i_rs(reg_read_data1_rs),
-                       .i_alu_res(alu_res),
-                       .i_alu_zero(alu_zero),
-                       .o_new_pc(new_pc)
-                   );
-    //----------------------------------MEM----------------------------------
-    //Data Mem
-    assign o_cpu_MemWrite  = MemWrite;
-    assign o_cpu_MemRead   = MemRead;
-    assign o_cpu_dmem_addr = alu_res;
-    assign o_cpu_dmem_write_data = reg_read_data2_rt;
-    assign dmem_read_data  = i_cpu_dmem_read_data;
-    assign o_cpu_dmem_mode = mode;
-    /*
-    data_mem       #(DATA_WIDTH, ADDRESS_WIDTH)
-                   CPU_data_mem
-                   (
-                       .clk(clk),
-                       .MemWrite(MemWrite),
-                       .MemRead(MemRead),
-                       .i_address(alu_res),
-                       .i_write_data(reg_read_data2_rt),
-                       .o_read_data(dmem_read_data)
-                   );
-    */
-    //----------------------------------WB-----------------------------------
-    //Register File
-    register_file  #(DATA_WIDTH, REG_ADDRESS_WIDTH)
-                   CPU_register_file
+    //--------------cycle start--------------
+    always @(negedge clk) IF_pc = IF_new_pc;
+    //--------------IF BEGIN------------------
+    pc_updater  #(W)
+                cpu_pc_updater
+                (
+                    .i_pc_old(IF_pc),
+                    .stall(stall),
+                    .i_IF_instruction(IF_instruction),
+                    .i_EX_isJR(EX_isJR), 
+                    .i_EX_rs(EX_rs),  
+                    .i_EX_branch_taken(EX_branch_taken),
+                    .i_EX_branch_des(EX_branch_des),
+                    .o_new_pc(IF_new_pc),
+                    .flush_ID_EX(flush_ID_EX),
+                    .flush_IF_ID(flush_IF_ID)
+                );
+    //--------------IF END--------------------
+    IF_ID   #(W) 
+            cpu_IF_ID
+            (
+                .clk(clk),
+                .flush(flush_IF_ID), //如果为高电平，则清空本寄存器
+                .i_IF_pc(IF_pc),
+                .i_IF_instruction(IF_instruction),
+                .o_ID_pc(ID_pc),
+                .o_ID_instruction(ID_instruction)
+            );
+    //--------------ID BEGIN------------------
+    register_file  #(W, REG_ADDRESS_WIDTH)
+                   cpu_register_file
                    (
                        .clk(clk),
                        .reset(reset),
-                       .i_read_addr1(instruction[25:21]),
-                       .i_read_addr2(instruction[20:16]),
-                       .i_write_data(reg_write_data),
-                       .i_write_addr(reg_write_addr),
+                       .i_read_addr1(`get_rs(ID_instruction)),
+                       .i_read_addr2(`get_rt(ID_instruction)),
+                       .i_write_data(WB_reg_write_data),
+                       .i_write_addr(WB_reg_write_addr),
                        .i_RegWrite(RegWrite),
-                       .o_data1_rs(reg_read_data1_rs),
-                       .o_data2_rt(reg_read_data2_rt)
+                       .o_read_rs(EX_rs),
+                       .o_read_rt(EX_rt)
                    );
-    //-----------------------------Wire Connction--------------------------
-    //4 Mux
-    wire   CPU_of;
-    adder         #(DATA_WIDTH)
-                  pc_plus_8_adder
-                  (
-                      .i_op1(pc),
-                      .i_op2(8),
-                      .o_sum(pc_plus_8),
-                      .o_OF(CPU_of)
-                  );
-    mux3to1       #(DATA_WIDTH)
-                  reg_write_data_mux
-                  ( 
-                      .i_option0(alu_res),
-                      .i_option1(dmem_read_data),
-                      .i_option2(pc_plus_8),
-                      .i_select(MemtoReg),
-                      .o_choice(reg_write_data)
-                  );
+    //--------------ID END--------------------
+    ID_EX   #(W) 
+            cpu_ID_EX
+            (
+                .clk(clk),
+                .flush(flush_ID_EX), //如果为高电平，则清空本寄存器
+                .i_ID_rs(ID_reg_read_rs),
+                .i_ID_rt(ID_reg_read_rt),
+                .i_ID_pc(ID_pc),
+                .i_ID_instruction(ID_instruction),
+                .o_EX_pc(EX_pc),
+                .o_EX_instruction(EX_instruction),
+                .o_EX_rs(EX_rs),
+                .o_EX_rt(EX_rt)
+            );
+    //-------------EX BEGIN--------------------
+    ALU_decoder #(W)
+        cpu_ALU_decoder
+        (
+            .i_instruction(EX_instruction),
+            .o_alu_ctr(EX_alu_ctr)
+        );
+    ALU #(W)
+        cpu_ALU
+        (
+            .i_oprand1(EX_alu_oprand1),
+            .i_oprand2(EX_alu_oprand2),
+            .i_alu_c(EX_alu_ctr), 
+            .o_zero(EX_alu_zero),
+            .o_alu_res(EX_alu_res)
+        );
+    branch_unit #(W)
+        cpu_branch_unit
+        (
+            .i_alu_res(EX_alu_res),
+            .i_alu_zero(EX_alu_zero),
+            .i_EX_instruction(EX_instruction),
+            .i_EX_rs(EX_rs),
+            .i_EX_pc(EX_pc),
+            .o_branch_taken(EX_branch_taken),
+            .o_branch_des(EX_branch_des),
+            .o_EX_isJR(EX_isJR)
+        );
+    //-------------EX END----------------------
 
-    mux3to1       #(REG_ADDRESS_WIDTH)
+    //-------------MEM BEGIN-------------------
+    //-------------MEM END---------------------
+    //-------------WB BEGIN--------------------
+    //-------------WB BEGIN--------------------
+    //=============Control Signals================
+    reg_write_unit    #(W)
+                    cpu_reg_write_unit
+                    (
+                        .i_WB_instruction(WB_instruction),
+                        .RegDst(RegDst),
+                        .MemtoReg(MemtoReg),
+                        .RegWrite(RegWrite)
+                    );
+    //===选择写入寄存器的地址===
+    mux3to1       #(W)
                   reg_write_addr_mux
                   (
-                      .i_option0(instruction[20:16]), //rt
-                      .i_option1(instruction[15:11]), //rd
-                      .i_option2(5'b11111),           //GRP[31] <- pc + 8
-                      .i_select(RegDst),
-                      .o_choice(reg_write_addr)
+                    .i_option0(`get_rt(WB_instruction)), //rt
+                    .i_option1(`get_rd(WB_instruction)), //rd
+                    .i_option2(`GPR31),                  //GRP[31] <- pc + 8
+                    .i_select(RegDst),
+                    .o_choice(WB_reg_write_addr)
                   );
-
-    mux3to1       #(DATA_WIDTH)
-                  alu_oprand2_mux
-                  (
-                      .i_option0(reg_read_data2_rt),  //rt的�??
-                      .i_option1(imm_after_signext),  //imm << 16
-                      .i_option2(32'h00000000),           // for BXXXZ
-                      .i_select(ALUSrc2),
-                      .o_choice(alu_oprand2)
+    //===选择写入寄存器的值===            
+    mux3to1       #(W)
+                  reg_write_data_muxi_WB_
+                  ( 
+                    .i_option0(WB_alu_res),
+                    .i_option1(WB_dmem_read_data),
+                    .i_option2(WB_pc + 8),
+                    .i_select(MemtoReg),
+                    .o_choice(WB_reg_write_data)
                   );
-
-    mux2to1       #(DATA_WIDTH)
-                  alu_oprand1_mux
-                  (
-                      .i_option0(reg_read_data1_rs),  //rs
-                      .i_option1({{24{1'b0}}, instruction[10:6]}),  //sa
-                      .i_select(ALUSrc1),
-                      .o_choice(alu_oprand1)
-                  );
-
+    //选择ALU的两个运算数
+    ALUSrc_selector
+        #(W)
+            
+    
 endmodule  //CPU

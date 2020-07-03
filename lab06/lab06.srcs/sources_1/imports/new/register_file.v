@@ -32,15 +32,15 @@ module register_file #
                         input  [REG_ADDRESS_WIDTH-1:0]  i_write_addr,
                         input  [DATA_WIDTH-1   :0]      i_write_data,
                         input                           i_RegWrite,
-                        output reg [DATA_WIDTH-1:0]     o_data1_rs,
-                        output reg [DATA_WIDTH-1:0]     o_data2_rt
+                        output reg [DATA_WIDTH-1:0]     o_read_rs,
+                        output reg [DATA_WIDTH-1:0]     o_read_rt
                     );
 
 reg [DATA_WIDTH:0] reg_file [0:31];
 
 always @(i_read_addr1 or i_read_addr2) begin
-    o_data1_rs <= reg_file[i_read_addr1];
-    o_data2_rt <= reg_file[i_read_addr2];
+    o_read_rs <= reg_file[i_read_addr1];
+    o_read_rt <= reg_file[i_read_addr2];
 end
 
 integer i;
