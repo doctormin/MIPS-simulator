@@ -35,9 +35,11 @@ module instruction_mem #
         for(i = 0; i < memSize; i = i + 1) begin
             I_memory[i] = 0;
         end
-        //"C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/DUMP/ALUtest1.mem"
-        //"C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/DUMP/BranchJump.mem"
-        $readmemh("C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/DUMP/MemTest.mem", I_memory);
+        //$readmemh("D:/Vivado/archlabs/lab06/lab06.srcs/sources_1/imports/new/DUMP/测试LoadUse导致的stall/testLoadUse.mem", I_memory);
+        $readmemh("D:/Vivado/archlabs/lab06/lab06.srcs/sources_1/imports/new/DUMP/测试JR导致的stall/testJR.mem", I_memory);
+        //$readmemh("C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/DUMP/ALUtest1.mem", I_memory);
+        //$readmemh("C:/Users/18123/Desktop/lab06/lab06.srcs/sources_1/imports/new/DUMP/BranchJump.mem", I_memory);
+        //$readmemh("C:/Users/18123/Desktop/lab06/lab06.srcs/sources_1/imports/new/DUMP/MemTest.mem", I_memory);
         $display("dump finished!\n");
     end
     always @(*) begin

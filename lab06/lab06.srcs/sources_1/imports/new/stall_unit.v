@@ -22,6 +22,7 @@ module stall_unit #(parameter W = 32)
                 );
 
     always @(*) begin
+        o_stall = 0;
         //情况1， 碰到JR就无条件stall
         if(`isJR(i_ID_instruction))
             o_stall = 1;

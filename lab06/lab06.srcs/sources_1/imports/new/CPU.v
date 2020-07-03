@@ -27,8 +27,8 @@ module CPU #(parameter W = 32)
                 input  [W-1:0]    i_cpu_instruction,
                 input  [W-1:0]    i_cpu_dmem_read_data,
                 output [W-1:0]    o_cpu_pc,              //CPU->instruction mem的pc
-                output [W-1:0]    o_cpu_dmem_addr,       //CPU->data mem的访问地�???
-                output [W-1:0]    o_cpu_dmem_write_data, //CPU->data mem的写入数�???
+                output [W-1:0]    o_cpu_dmem_addr,       //CPU->data mem的访问地�????
+                output [W-1:0]    o_cpu_dmem_write_data, //CPU->data mem的写入数�????
                 output [1:0]      o_cpu_dmem_mode,
                 output            o_cpu_MemWrite,
                 output            o_cpu_MemRead
@@ -51,7 +51,7 @@ module CPU #(parameter W = 32)
     wire [W-1:0] EX_alu_oprand1;
     wire [W-1:0] EX_alu_oprand2;
     wire [W-1:0] EX_alu_res;
-    wire [4  :0] EX_alu_ctr;
+    wire [3  :0] EX_alu_ctr;
     wire         EX_alu_zero;
     wire         EX_branch_taken;
     wire         EX_isJR;
@@ -71,6 +71,7 @@ module CPU #(parameter W = 32)
     wire [W-1:0] WB_reg_write_data;
     wire [`reg]  WB_reg_write_addr;
     //===Control Signals===
+    wire         stall;
     wire         flush;
     wire         flush_ID_EX;
     wire         flush_IF_ID;
@@ -78,7 +79,7 @@ module CPU #(parameter W = 32)
     wire         MemRead;
     wire         MemWrite;
     wire [1:0]   MemMode;          //0:word    1:half word   2: byte  
-    //寄存器相�??
+    //寄存器相�?
     wire         MEM_RegWrite;
     wire         WB_RegWrite;
     wire [1:0]   MEM_RegDst;
@@ -90,7 +91,10 @@ module CPU #(parameter W = 32)
     wire [W-1:0] forwarded_data;
 
     //--------------cycle start--------------
-    always @(negedge clk) IF_pc = IF_new_pc;
+    always @(posedge reset) begin
+        IF_pc <= {32{1'b0}};
+    end
+    always @(posedge clk) IF_pc <= IF_new_pc;
     pc_updater  #(W)
                 cpu_pc_updater
                 (
@@ -105,6 +109,13 @@ module CPU #(parameter W = 32)
                     .flush_ID_EX(flush_ID_EX),
                     .flush_IF_ID(flush_IF_ID)
                 );
+    stall_unit #(W)
+        cpu_stall_unit
+        (
+            .i_IF_instruction(IF_instruction),
+            .i_ID_instruction(ID_instruction),
+            .o_stall(stall)
+        );
     //--------------IF BEGIN------------------
     assign o_cpu_pc       = IF_pc;
     assign IF_instruction = i_cpu_instruction;
@@ -113,6 +124,7 @@ module CPU #(parameter W = 32)
             cpu_IF_ID
             (
                 .clk(clk),
+                .reset(reset),
                 .flush(flush_IF_ID), //如果为高电平，则清空本寄存器
                 .i_IF_pc(IF_pc),
                 .i_IF_instruction(IF_instruction),
@@ -193,7 +205,7 @@ module CPU #(parameter W = 32)
     assign o_cpu_dmem_mode       = MemMode;
     assign o_cpu_MemWrite        = MemWrite;
     assign o_cpu_MemRead         = MemRead;
-    assign MEM_dmem_write_data   = mem_forward_signal ? forwarded_data : MEM_rt; //处理ALU + sx的情�??
+    assign MEM_dmem_write_data   = mem_forward_signal ? forwarded_data : MEM_rt; //处理ALU + sx的情�???
     assign o_cpu_dmem_write_data = MEM_dmem_write_data;
     assign o_cpu_dmem_addr       = MEM_alu_res;
     assign MEM_dmem_read_data    = i_cpu_dmem_read_data;
@@ -250,7 +262,7 @@ module CPU #(parameter W = 32)
             .i_select(MEM_RegDst),
             .o_choice(MEM_reg_write_addr)
         );
-    //===选择写入寄存器的�??===            
+    //===选择写入寄存器的�???===            
     mux3to1 #(W)
         reg_write_data_mux
         ( 
@@ -265,7 +277,14 @@ module CPU #(parameter W = 32)
         #(W)
         cpu_ALUSrc_selector
         (
-
+            .i_instruction(EX_instruction),
+            .i_rs(EX_rs),
+            .i_rt(EX_rt),
+            .i_forwarded_data(forwarded_data),
+            .i_rs_forward_signal(rs_forward_signal),
+            .i_rt_forward_signal(rt_forward_signal),
+            .o_alu_oprand1(EX_alu_oprand1),
+            .o_alu_oprand2(EX_alu_oprand2)
         );
     //===Forward Unit===
     forwarding_unit #(W)

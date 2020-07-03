@@ -42,7 +42,7 @@ module  MEM_WB  #
                     output reg [`reg]  o_WB_reg_write_addr,
                     output reg [W-1:0] o_WB_reg_write_data
                 );
-    always @(negedge clk) begin
+    always @(posedge clk) begin
        o_WB_instruction    <= i_MEM_instruction;
        o_WB_pc             <= i_MEM_pc;
        o_WB_dmem_read_data <= i_MEM_dmem_read_data;

@@ -34,7 +34,7 @@ module  EX_MEM  #
                     output reg [W-1:0] o_MEM_pc,
                     output reg [W-1:0] o_MEM_rt
                 );
-    always @(negedge clk) begin
+    always @(posedge clk) begin
        o_MEM_alu_res     <= i_EX_alu_res;
        o_MEM_instruction <= i_EX_instruction;
        o_MEM_pc          <= i_EX_pc;

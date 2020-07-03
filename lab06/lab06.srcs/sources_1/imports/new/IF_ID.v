@@ -27,6 +27,7 @@ module  IF_ID   #
                 )
                 (
                     input                   clk,
+                    input                   reset,
                     input                   flush, //如果为高电平，则清空本寄存器
                     input       [AW-1:0]    i_IF_pc,
                     input       [DW-1:0]    i_IF_instruction,
@@ -34,14 +35,14 @@ module  IF_ID   #
                     output  reg [DW-1:0]    o_ID_instruction
                 );
 
-always @(negedge clk) begin
-    if(flush) begin
-        o_ID_instruction <= 0;
-        o_ID_pc <= 0;
-    end
-    else begin
-        o_ID_instruction <= i_IF_instruction;
-        o_ID_pc <= i_IF_pc;
-    end
+always @(posedge clk) begin
+        if(flush) begin
+            o_ID_instruction <= 0;
+            o_ID_pc <= 0;
+        end
+        else begin
+            o_ID_instruction <= i_IF_instruction;
+            o_ID_pc <= i_IF_pc;
+        end 
 end
 endmodule //IF_ID

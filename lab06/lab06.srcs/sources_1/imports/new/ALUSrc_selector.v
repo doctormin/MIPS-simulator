@@ -62,14 +62,16 @@ module ALUSrc_selector #(parameter W = 32)
             `OP_R: 
                 begin
                     case (fun)
-                        `FUN_SLL, `FUN_SRL, `FUN_SRA:
+                        `FUN_SLL, `FUN_SRL, `FUN_SRA: begin
                             o_alu_oprand1 = {{27{1'b0}}, sa};
+
+                        end 
                         default:
-                            o_alu_oprand2 = i_rs_forward_signal ? i_forwarded_data : i_rs;
+                            o_alu_oprand1 = i_rs_forward_signal ? i_forwarded_data : i_rs;
                     endcase
                 end
             default:
-                o_alu_oprand2 = i_rs_forward_signal ? i_forwarded_data : i_rs;
+                o_alu_oprand1 = i_rs_forward_signal ? i_forwarded_data : i_rs;
         endcase
     end
 

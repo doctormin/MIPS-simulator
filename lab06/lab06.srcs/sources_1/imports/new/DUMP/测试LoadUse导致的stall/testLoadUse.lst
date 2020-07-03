@@ -1,0 +1,13 @@
+
+a.out:     file format elf32-bigmips
+
+
+Disassembly of section .text:
+
+00000000 <.text>:
+   0:	25080002 	addiu	t0,t0,2
+   4:	ac080002 	sw	t0,2(zero)
+   8:	25080002 	addiu	t0,t0,2
+   c:	8c080002 	lw	t0,2(zero)
+  10:	01004820 	add	t1,t0,zero
+  14:	01004824 	and	t1,t0,zero

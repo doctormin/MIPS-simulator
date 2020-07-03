@@ -3,15 +3,15 @@ Copyright 1986-1999, 2001-2018 Xilinx, Inc. All Rights Reserved.
 Running: D:/Xilinx/Vivado/2018.3/bin/unwrapped/win64.o/xelab.exe -wto 4fa7d475c6694edea564d7b9fe55a562 --incr --debug typical --relax --mt 2 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip --snapshot system_tb_behav xil_defaultlib.system_tb xil_defaultlib.glbl -log elaborate.log 
 Using 2 slave threads.
 Starting static elaboration
-WARNING: [VRFC 10-3091] actual bit length 32 differs from formal bit length 1 for port 'i_EX_branch_des' [D:/Vivado/archlabs/lab06/lab06.srcs/sources_1/imports/new/CPU.v:103]
-WARNING: [VRFC 10-3091] actual bit length 5 differs from formal bit length 4 for port 'o_alu_ctr' [D:/Vivado/archlabs/lab06/lab06.srcs/sources_1/imports/new/CPU.v:156]
-WARNING: [VRFC 10-3091] actual bit length 5 differs from formal bit length 4 for port 'i_alu_ctr' [D:/Vivado/archlabs/lab06/lab06.srcs/sources_1/imports/new/CPU.v:163]
-WARNING: [VRFC 10-3091] actual bit length 1 differs from formal bit length 32 for port 'o_WB_alu_res' [D:/Vivado/archlabs/lab06/lab06.srcs/sources_1/imports/new/CPU.v:216]
+WARNING: [VRFC 10-3091] actual bit length 32 differs from formal bit length 1 for port 'i_EX_branch_des' [D:/Vivado/archlabs/lab06/lab06.srcs/sources_1/imports/new/CPU.v:107]
+WARNING: [VRFC 10-3091] actual bit length 1 differs from formal bit length 32 for port 'o_WB_alu_res' [D:/Vivado/archlabs/lab06/lab06.srcs/sources_1/imports/new/CPU.v:228]
 Completed static elaboration
 Starting simulation data flow analysis
 Completed simulation data flow analysis
 Time Resolution for simulation is 1ps
 Compiling module xil_defaultlib.pc_updater
+Compiling module xil_defaultlib.use_register
+Compiling module xil_defaultlib.stall_unit
 Compiling module xil_defaultlib.IF_ID
 Compiling module xil_defaultlib.register_file
 Compiling module xil_defaultlib.ID_EX
@@ -26,7 +26,6 @@ Compiling module xil_defaultlib.reg_write_unit
 Compiling module xil_defaultlib.mux3to1(DATA_WIDTH=5)
 Compiling module xil_defaultlib.mux3to1
 Compiling module xil_defaultlib.ALUSrc_selector
-Compiling module xil_defaultlib.use_register
 Compiling module xil_defaultlib.forwarding_unit
 Compiling module xil_defaultlib.CPU
 Compiling module xil_defaultlib.instruction_mem

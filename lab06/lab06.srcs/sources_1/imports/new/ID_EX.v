@@ -35,7 +35,7 @@ module  ID_EX   #
                     output  reg [W-1:0]    o_EX_rs,
                     output  reg [W-1:0]    o_EX_rt
                 );
-    always @(negedge clk) begin
+    always @(posedge clk) begin
         if(flush) begin
             o_EX_rs <= 0;
             o_EX_rt <= 0;

@@ -1,0 +1,29 @@
+
+a.out:     file format elf32-bigmips
+
+
+Disassembly of section .text:
+
+00000000 <.text>:
+   0:	25290002 	addiu	t1,t1,2
+   4:	01205020 	add	t2,t1,zero
+   8:	012a5820 	add	t3,t1,t2
+   c:	01694022 	sub	t0,t3,t1
+  10:	21080010 	addi	t0,t0,16
+  14:	01095823 	subu	t3,t0,t1
+  18:	258cff00 	addiu	t4,t4,-256
+  1c:	018b4024 	and	t0,t4,t3
+  20:	018b4025 	or	t0,t4,t3
+  24:	31888811 	andi	t0,t4,0x8811
+  28:	358800ff 	ori	t0,t4,0xff
+  2c:	018b4027 	nor	t0,t4,t3
+  30:	018b4026 	xor	t0,t4,t3
+  34:	00084100 	sll	t0,t0,0x4
+  38:	01684004 	sllv	t0,t0,t3
+  3c:	00084103 	sra	t0,t0,0x4
+  40:	01684006 	srlv	t0,t0,t3
+  44:	010b402a 	slt	t0,t0,t3
+  48:	3c08000f 	lui	t0,0xf
+  4c:	010b482b 	sltu	t1,t0,t3
+  50:	2d090003 	sltiu	t1,t0,3
+  54:	29090004 	slti	t1,t0,4

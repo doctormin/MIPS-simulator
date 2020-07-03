@@ -50,7 +50,7 @@ always@(*) begin
             reg_file[i] = 32'h00000000;
     end
 end
-always @(negedge clk) begin
+always @(nedge clk) begin
     if(i_RegWrite)
         reg_file[i_write_addr] = i_write_data;
 end

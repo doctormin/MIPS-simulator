@@ -1,0 +1,7 @@
+addiu $t0, 12
+jr    $t0
+addiu $t0, 4
+addiu $t0, 4
+addiu $t0, 8
+jr    $t0
+addiu $t0, 4

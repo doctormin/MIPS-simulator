@@ -1,0 +1,17 @@
+
+a.out:     file format elf32-bigmips
+
+
+Disassembly of section .text:
+
+00000000 <main>:
+   0:	3c09ffff 	lui	t1,0xffff
+   4:	35298000 	ori	t1,t1,0x8000
+   8:	ac090000 	sw	t1,0(zero)
+   c:	840a0002 	lh	t2,2(zero)
+  10:	940b0002 	lhu	t3,2(zero)
+  14:	800c0000 	lb	t4,0(zero)
+  18:	900d0000 	lbu	t5,0(zero)
+  1c:	24090090 	li	t1,144
+  20:	a0090003 	sb	t1,3(zero)
+  24:	8c0e0000 	lw	t6,0(zero)

@@ -29,8 +29,10 @@ module system_tb();
     
     initial begin
         clk = 0;
+        reset = 0;
+        #101
         reset = 1;
-        #150
+        #10
         reset = 0;
     end
 endmodule
