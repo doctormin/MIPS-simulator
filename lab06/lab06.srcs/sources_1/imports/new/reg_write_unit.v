@@ -25,7 +25,7 @@ module reg_write_unit #
                     parameter W = 32
                 )
                 (
-                    input      [W-1:0] i_WB_instruction,
+                    input      [W-1:0] i_instruction,
                     output reg [1:  0] RegDst,
                     output reg [1:  0] MemtoReg,
                     output reg         RegWrite
@@ -41,7 +41,7 @@ module reg_write_unit #
                pc_plus_8 = 2'b10;
     
     always @(*) begin
-        case(`get_op(i_WB_instruction)) 
+        case(`get_op(i_instruction)) 
         `OP_R: 
             begin
                 RegWrite = 1;
@@ -75,7 +75,7 @@ module reg_write_unit #
             end
         default: 
             begin
-                $warning("%m: reg_write_unit -> opcode not recognized: %06b", `get_op(i_WB_instruction));
+                $warning("%m: reg_write_unit -> opcode not recognized: %06b", `get_op(i_instruction));
             end
         endcase
     end

@@ -1,0 +1,29 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  --include "../../../../lab06.srcs/sources_1/imports/new" \
+"../../../../lab06.srcs/sources_1/imports/new/ALU.v" \
+"../../../../lab06.srcs/sources_1/imports/new/ALUSrc_selector.v" \
+"../../../../lab06.srcs/sources_1/imports/new/ALU_decoder.v" \
+"../../../../lab06.srcs/sources_1/imports/new/CPU.v" \
+"../../../../lab06.srcs/sources_1/imports/new/EX_MEM.v" \
+"../../../../lab06.srcs/sources_1/imports/new/ID_EX.v" \
+"../../../../lab06.srcs/sources_1/imports/new/IF_ID.v" \
+"../../../../lab06.srcs/sources_1/imports/new/MEM_WB.v" \
+"../../../../lab06.srcs/sources_1/imports/new/TOP.v" \
+"../../../../lab06.srcs/sources_1/imports/new/branch_unit.v" \
+"../../../../lab06.srcs/sources_1/imports/new/data_mem.v" \
+"../../../../lab06.srcs/sources_1/imports/new/dmem_access_unit.v" \
+"../../../../lab06.srcs/sources_1/imports/new/forwarding_unit.v" \
+"../../../../lab06.srcs/sources_1/imports/new/instruction_mem.v" \
+"../../../../lab06.srcs/sources_1/imports/new/mux3to1.v" \
+"../../../../lab06.srcs/sources_1/imports/new/pc_updater.v" \
+"../../../../lab06.srcs/sources_1/imports/new/reg_write_unit.v" \
+"../../../../lab06.srcs/sources_1/imports/new/register_file.v" \
+"../../../../lab06.srcs/sources_1/imports/new/sign_extender.v" \
+"../../../../lab06.srcs/sources_1/imports/new/use_register.v" \
+"../../../../lab06.srcs/sim_1/new/system_tb.v" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort

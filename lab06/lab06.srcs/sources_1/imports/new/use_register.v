@@ -13,17 +13,18 @@ module use_register #(
 wire [`op]  opcode = `get_op(instruction);
 wire [`fun] fun    = `get_fun(instruction);
 
-always @(*) begin
-    use_rs = 1;
-    use_rt = 1;
-    if(opcode == `OP_J || opcode == `OP_JAL ) begin
-        use_rs = 0;
-        use_rt = 0;
-    end
-    /*不需要，因为实际上用的$zero
-    if(opcode == `OP_R && (fun == `FUN_SLL||fun == `FUN_SRL||fun == `FUN_SRA) 
-        use_rs = 0;
-    */
-    if(opcode == `OP_REGIMM)
-        use_rt = 0;
-end 
+    always @(*) begin
+        use_rs = 1;
+        use_rt = 1;
+        if(opcode == `OP_J || opcode == `OP_JAL ) begin
+            use_rs = 0;
+            use_rt = 0;
+        end
+        /*不需要，因为实际上用�?$zero
+        if(opcode == `OP_R && (fun == `FUN_SLL||fun == `FUN_SRL||fun == `FUN_SRA) 
+            use_rs = 0;
+        */
+        if(opcode == `OP_REGIMM)
+            use_rt = 0;
+    end 
+endmodule

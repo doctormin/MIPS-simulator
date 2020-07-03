@@ -25,19 +25,18 @@ module TOP (
             input clk,
             input reset 
            );
-    localparam DATA_WIDTH        = 32,
-               ADDRESS_WIDTH     = 32,
-               REG_ADDRESS_WIDTH = 5;
-    wire [DATA_WIDTH-1:0]    TOP_instruction;
-    wire [DATA_WIDTH-1:0]    TOP_dmem_read_data;
-    wire [DATA_WIDTH-1:0]    TOP_dmem_write_data;
-    wire [ADDRESS_WIDTH-1:0] TOP_pc;
-    wire [ADDRESS_WIDTH-1:0] TOP_dmem_addr;
-    wire                     TOP_MemWrite;
-    wire                     TOP_MemRead;
+    localparam W = 32;
+    wire [W-1:0] TOP_instruction;
+    wire [W-1:0] TOP_dmem_read_data;
+    wire [W-1:0] TOP_dmem_write_data;
+    wire [W-1:0] TOP_pc;
+    wire [W-1:0] TOP_dmem_addr;
+    wire [1:0]   TOP_mode;
+    wire         TOP_MemWrite;
+    wire         TOP_MemRead;
 
 
-    CPU #(ADDRESS_WIDTH, DATA_WIDTH, REG_ADDRESS_WIDTH)
+    CPU #(W)
         TOP_CPU
         (
             .clk(clk),
@@ -48,22 +47,24 @@ module TOP (
             .o_cpu_dmem_addr(TOP_dmem_addr),
             .o_cpu_dmem_write_data(TOP_dmem_write_data),
             .o_cpu_MemWrite(TOP_MemWrite),
+            .o_cpu_dmem_mode(TOP_mode),
             .o_cpu_MemRead(TOP_MemRead)
         );
         
-    instruction_mem #(DATA_WIDTH, ADDRESS_WIDTH)
+    instruction_mem #(W, W)
                    TOP_instuction_mem
                    (
                        .i_read_address(TOP_pc),
                        .o_instruction(TOP_instruction)
                    );
    
-    data_mem       #(DATA_WIDTH, ADDRESS_WIDTH)
+    data_mem       #(W, W)
                    TOP_data_mem
                    (
                        .clk(clk),
                        .MemWrite(TOP_MemWrite),
                        .MemRead(TOP_MemRead),
+                       .mode(TOP_mode),
                        .i_address(TOP_dmem_addr),
                        .i_write_data(TOP_dmem_write_data),
                        .o_read_data(TOP_dmem_read_data)

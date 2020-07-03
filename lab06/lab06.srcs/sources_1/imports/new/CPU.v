@@ -20,17 +20,15 @@
 //////////////////////////////////////////////////////////////////////////////////
 `include "ISA.v"
 
-module CPU #(
-                parameter W = 32,
-            )
+module CPU #(parameter W = 32)
             (
                 input  clk,
                 input  reset,
                 input  [W-1:0]    i_cpu_instruction,
                 input  [W-1:0]    i_cpu_dmem_read_data,
                 output [W-1:0]    o_cpu_pc,              //CPU->instruction mem的pc
-                output [W-1:0]    o_cpu_dmem_addr,       //CPU->data mem的访问地址?
-                output [W-1:0]    o_cpu_dmem_write_data, //CPU->data mem的写入数据?
+                output [W-1:0]    o_cpu_dmem_addr,       //CPU->data mem的访问地�???
+                output [W-1:0]    o_cpu_dmem_write_data, //CPU->data mem的写入数�???
                 output [1:0]      o_cpu_dmem_mode,
                 output            o_cpu_MemWrite,
                 output            o_cpu_MemRead
@@ -80,7 +78,7 @@ module CPU #(
     wire         MemRead;
     wire         MemWrite;
     wire [1:0]   MemMode;          //0:word    1:half word   2: byte  
-    //寄存器相关
+    //寄存器相�??
     wire         MEM_RegWrite;
     wire         WB_RegWrite;
     wire [1:0]   MEM_RegDst;
@@ -162,7 +160,7 @@ module CPU #(
         (
             .i_oprand1(EX_alu_oprand1),
             .i_oprand2(EX_alu_oprand2),
-            .i_alu_c(EX_alu_ctr), 
+            .i_alu_ctr(EX_alu_ctr), 
             .o_zero(EX_alu_zero),
             .o_alu_res(EX_alu_res)
         );
@@ -195,7 +193,7 @@ module CPU #(
     assign o_cpu_dmem_mode       = MemMode;
     assign o_cpu_MemWrite        = MemWrite;
     assign o_cpu_MemRead         = MemRead;
-    assign MEM_dmem_write_data   = mem_forward_signal ? forwarded_data : MEM_rt; //处理ALU + sx的情况
+    assign MEM_dmem_write_data   = mem_forward_signal ? forwarded_data : MEM_rt; //处理ALU + sx的情�??
     assign o_cpu_dmem_write_data = MEM_dmem_write_data;
     assign o_cpu_dmem_addr       = MEM_alu_res;
     assign MEM_dmem_read_data    = i_cpu_dmem_read_data;
@@ -252,7 +250,7 @@ module CPU #(
             .i_select(MEM_RegDst),
             .o_choice(MEM_reg_write_addr)
         );
-    //===选择写入寄存器的值===            
+    //===选择写入寄存器的�??===            
     mux3to1 #(W)
         reg_write_data_mux
         ( 
