@@ -64,6 +64,8 @@ module CPU #(
     wire [W-1:0] MEM_alu_res;
     wire [W-1:0] MEM_dmem_read_data;
     wire [W-1:0] MEM_dmem_write_data; //1.来自rt, 2.来自转发
+    wire [W-1:0] MEM_reg_write_data;
+    wire [`reg]  MEM_reg_write_addr;
     //=====WB=====
     wire [W-1:0] WB_instruction;
     wire [W-1:0] WB_pc;
@@ -74,12 +76,15 @@ module CPU #(
     wire         flush;
     wire         flush_ID_EX;
     wire         flush_IF_ID;
+    //data memory相关
     wire         MemRead;
     wire         MemWrite;
-    wire         RegWrite;
     wire [1:0]   MemMode;          //0:word    1:half word   2: byte  
-    wire [1:0]   RegDst;
-    wire [1:0]   MemtoReg;
+    //寄存器相关
+    wire         MEM_RegWrite;
+    wire         WB_RegWrite;
+    wire [1:0]   MEM_RegDst;
+    wire [1:0]   MEM_MemtoReg;
     //forwarding unit
     wire         rs_forward_signal;
     wire         rt_forward_signal;
@@ -117,7 +122,7 @@ module CPU #(
                 .o_ID_instruction(ID_instruction)
             );
     //--------------ID BEGIN------------------
-    register_file  #(W, REG_ADDRESS_WIDTH)
+    register_file  #(W, 5)
                    cpu_register_file
                    (
                        .clk(clk),
@@ -126,7 +131,7 @@ module CPU #(
                        .i_read_addr2(`get_rt(ID_instruction)),
                        .i_write_data(WB_reg_write_data),
                        .i_write_addr(WB_reg_write_addr),
-                       .i_RegWrite(RegWrite),
+                       .i_RegWrite(WB_RegWrite),
                        .o_read_rs(EX_rs),
                        .o_read_rt(EX_rt)
                    );
@@ -203,10 +208,17 @@ module CPU #(
             .i_MEM_pc(MEM_pc),
             .i_MEM_dmem_read_data(MEM_dmem_read_data),
             .i_MEM_alu_res(MEM_alu_res),
+            .i_MEM_RegWrite(MEM_RegWrite),
+            .i_MEM_reg_write_addr(MEM_reg_write_addr),
+            .i_MEM_reg_write_data(MEM_reg_write_data),
+            
             .o_WB_instruction(WB_instruction),
             .o_WB_pc(WB_pc),
             .o_WB_dmem_read_data(WB_dmem_read_data),
-            .o_WB_alu_res(WB_alu_res)
+            .o_WB_alu_res(WB_alu_res),
+            .o_WB_RegWrite(WB_RegWrite),
+            .o_WB_reg_write_addr(WB_reg_write_addr),
+            .o_WB_reg_write_data(WB_reg_write_data)
         );
     //-------------WB BEGIN--------------------
     //-------------WB END----------------------
@@ -222,35 +234,34 @@ module CPU #(
             .mode(MemMode)
         );
     //===决定MemtoReg和RegWrite信号===
-    reg_write_unit    
-        #(W)
+    reg_write_unit  #(W)
         cpu_reg_write_unit
         (
-            .i_WB_instruction(WB_instruction),
-            .RegDst(RegDst),
-            .MemtoReg(MemtoReg),
-            .RegWrite(RegWrite)
+            .i_instruction(MEM_instruction),
+            .RegDst(MEM_RegDst),
+            .MemtoReg(MEM_MemtoReg),
+            .RegWrite(MEM_RegWrite)
         );
     //===选择写入寄存器的地址===
-    mux3to1 #(W)
-            reg_write_addr_mux
-            (
-                .i_option0(`get_rt(WB_instruction)), //rt
-                .i_option1(`get_rd(WB_instruction)), //rd
-                .i_option2(`GPR31),                  //GRP[31] <- pc + 8
-                .i_select(RegDst),
-                .o_choice(WB_reg_write_addr)
-            );
+    mux3to1 #(5)
+        reg_write_addr_mux
+        (
+            .i_option0(`get_rt(MEM_instruction)), //rt
+            .i_option1(`get_rd(MEM_instruction)), //rd
+            .i_option2(`GPR31),                  //GRP[31] <- pc + 8
+            .i_select(MEM_RegDst),
+            .o_choice(MEM_reg_write_addr)
+        );
     //===选择写入寄存器的值===            
-    mux3to1       #(W)
-                  reg_write_data_mux
-                  ( 
-                    .i_option0(WB_alu_res),
-                    .i_option1(WB_dmem_read_data),
-                    .i_option2(WB_pc + 8),
-                    .i_select(MemtoReg),
-                    .o_choice(WB_reg_write_data)
-                  );
+    mux3to1 #(W)
+        reg_write_data_mux
+        ( 
+            .i_option0(MEM_alu_res),
+            .i_option1(MEM_dmem_read_data),     //SB SH SW
+            .i_option2(MEM_pc + 8),             //JAL BXXAL
+            .i_select(MEM_MemtoReg),
+            .o_choice(MEM_reg_write_data)
+        );
     //===选择ALU的两个运算数===
     ALUSrc_selector
         #(W)
