@@ -6,11 +6,10 @@ module branch_unit #(parameter W = 32)
                         input  [W-1:0]  i_alu_res,
                         input           i_alu_zero,
                         input  [W-1:0]  i_EX_instruction,
-                        input  [W-1:0]  i_EX_rs,
                         input  [W-1:0]  i_EX_pc,
                         output reg          o_branch_taken,
                         output reg [W-1:0]  o_branch_des,
-                        output              o_EX_isJR, 
+                        output              o_EX_isJR
                     );
     wire [`op]   opcode = `get_op(i_EX_instruction);
     wire is_BEQ  = (opcode == `OP_BEQ);
@@ -25,7 +24,6 @@ module branch_unit #(parameter W = 32)
                         imm_after_signext
                     );
     assign  o_EX_isJR   = `isJR(i_EX_instruction);
-    assign  o_EX_rs     = i_EX_rs;
     always @(*) begin
         o_branch_taken  = 0;
         o_branch_des = (imm_after_signext << 2) + i_EX_pc + 4;

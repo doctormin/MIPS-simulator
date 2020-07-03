@@ -106,7 +106,10 @@
 `define sa     4:0
 `define GPR31 5'b11111
 
-`define isLoad(i) `get_op(i) == `OP_LB||`get_op(i) == `OP_LBU||`get_op(i) == `OP_LH||`get_op(i) == `OP_LHU||`get_op(i) == `OP_LW  
+`define isStore(i)          `get_op(i) == `OP_SB||`get_op(i) == `OP_SW||`get_op(i) == `OP_SH
+`define isLoad(i)           `get_op(i) == `OP_LB||`get_op(i) == `OP_LBU||`get_op(i) == `OP_LH||`get_op(i) == `OP_LHU||`get_op(i) == `OP_LW  
 `define isJump(instruction) `get_op(instruction) == `OP_J 
 `define isJAL(instruction)  `get_op(instruction) == `OP_JAL 
 `define isJR(instruction)   `get_op(instruction) == `OP_JR && `get_fun(instruction) == `FUN_JR
+`define writeRT(i)          `isLoad(i)||`get_op(i) == `OP_LUI||`get_op(i) == `OP_SLTI||`get_op(i) == `OP_SLTIU
+`define writeRD(i)          (`get_op(i)==`OP_R && (`get_fun(i)!=`FUN_JR))||`get_op(i)==`OP_ADDI||`get_op(i)==`OP_ADDIU||`get_op(i)==`OP_ANDI||`get_op(i)==`OP_ORI||`get_op(i)==`OP_XORI

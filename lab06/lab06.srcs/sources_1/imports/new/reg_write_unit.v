@@ -19,15 +19,15 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
-//本模块负责产生MemtoReg和RegDst信号
+//本模块负责产生MemtoReg和RegDs和RegWrite信号
 module reg_write_unit #
                 (
                     parameter W = 32
                 )
                 (
-                    input  [W-1:0] i_WB_instruction,
-                    output reg [1:0]   RegDst,
-                    output reg [1:0]   MemtoReg,
+                    input      [W-1:0] i_WB_instruction,
+                    output reg [1:  0] RegDst,
+                    output reg [1:  0] MemtoReg,
                     output reg         RegWrite
                 );
                //RegDst - Mux3to1

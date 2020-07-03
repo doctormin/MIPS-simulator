@@ -22,29 +22,26 @@
 
 module CPU #(
                 parameter W = 32,
-                parameter REG_ADDRESS_WIDTH = 5
             )
             (
                 input  clk,
                 input  reset,
-                input  [W-1:0]    IF_instruction,
+                input  [W-1:0]    i_cpu_instruction,
                 input  [W-1:0]    i_cpu_dmem_read_data,
-                output [W-1:0] o_cpu_pc,              //CPU->instruction mem的pc
-                output [W-1:0]    o_cpu_dmem_addr,       //CPU->data mem的访问地�?
-                output [W-1:0]    o_cpu_dmem_write_data, //CPU->data mem的写入数�?
-                output [1:0]               o_cpu_dmem_mode,
-                output                     o_cpu_MemWrite,
-                output                     o_cpu_MemRead
+                output [W-1:0]    o_cpu_pc,              //CPU->instruction mem的pc
+                output [W-1:0]    o_cpu_dmem_addr,       //CPU->data mem的访问地址?
+                output [W-1:0]    o_cpu_dmem_write_data, //CPU->data mem的写入数据?
+                output [1:0]      o_cpu_dmem_mode,
+                output            o_cpu_MemWrite,
+                output            o_cpu_MemRead
             );
     //=====IF====
     reg  [W-1:0] IF_pc;
     wire [W-1:0] IF_new_pc;
-    wire         flush_ID_EX;
-    wire         flush_IF_ID;
+    wire [W-1:0] IF_instruction;
     //=====ID====
     wire [W-1:0] ID_instruction;
     wire [W-1:0] ID_pc;
-    wire flush;
     wire [W-1:0] ID_reg_read_rs;
     wire [W-1:0] ID_reg_read_rt;
     //=====EX=====
@@ -52,8 +49,7 @@ module CPU #(
     wire [W-1:0] EX_pc;
     wire [W-1:0] EX_rs;
     wire [W-1:0] EX_rt;
-    wire [W-1:0] EX_branch_des;   //branch的目的地
-    wire [W-1:0] EX_imm_extended;  //imm经过extend之后的结果
+    wire [W-1:0] EX_branch_des;    //branch的目的地
     wire [W-1:0] EX_alu_oprand1;
     wire [W-1:0] EX_alu_oprand2;
     wire [W-1:0] EX_alu_res;
@@ -64,20 +60,34 @@ module CPU #(
     //=====MEM====
     wire [W-1:0] MEM_instruction;
     wire [W-1:0] MEM_pc;
+    wire [W-1:0] MEM_rt;
+    wire [W-1:0] MEM_alu_res;
+    wire [W-1:0] MEM_dmem_read_data;
+    wire [W-1:0] MEM_dmem_write_data; //1.来自rt, 2.来自转发
     //=====WB=====
     wire [W-1:0] WB_instruction;
     wire [W-1:0] WB_pc;
     wire [W-1:0] WB_dmem_read_data;
     wire [W-1:0] WB_reg_write_data;
-    wire [W-1:0] WB_reg_write_addr;
+    wire [`reg]  WB_reg_write_addr;
     //===Control Signals===
+    wire         flush;
+    wire         flush_ID_EX;
+    wire         flush_IF_ID;
+    wire         MemRead;
+    wire         MemWrite;
+    wire         RegWrite;
+    wire [1:0]   MemMode;          //0:word    1:half word   2: byte  
     wire [1:0]   RegDst;
     wire [1:0]   MemtoReg;
-    wire         RegWrite;
+    //forwarding unit
+    wire         rs_forward_signal;
+    wire         rt_forward_signal;
+    wire         mem_forward_signal;
+    wire [W-1:0] forwarded_data;
 
     //--------------cycle start--------------
     always @(negedge clk) IF_pc = IF_new_pc;
-    //--------------IF BEGIN------------------
     pc_updater  #(W)
                 cpu_pc_updater
                 (
@@ -92,6 +102,9 @@ module CPU #(
                     .flush_ID_EX(flush_ID_EX),
                     .flush_IF_ID(flush_IF_ID)
                 );
+    //--------------IF BEGIN------------------
+    assign o_cpu_pc       = IF_pc;
+    assign IF_instruction = i_cpu_instruction;
     //--------------IF END--------------------
     IF_ID   #(W) 
             cpu_IF_ID
@@ -154,40 +167,83 @@ module CPU #(
             .i_alu_res(EX_alu_res),
             .i_alu_zero(EX_alu_zero),
             .i_EX_instruction(EX_instruction),
-            .i_EX_rs(EX_rs),
             .i_EX_pc(EX_pc),
             .o_branch_taken(EX_branch_taken),
             .o_branch_des(EX_branch_des),
             .o_EX_isJR(EX_isJR)
         );
     //-------------EX END----------------------
-
+    EX_MEM  #(W)
+        cpu_EX_MEM
+        (
+            .clk(clk),
+            .i_EX_instruction(EX_instruction),
+            .i_EX_pc(EX_pc),
+            .i_EX_alu_res(EX_alu_res), 
+            .i_EX_rt(EX_rt),
+            .o_MEM_instruction(MEM_instruction),
+            .o_MEM_alu_res(MEM_alu_res),
+            .o_MEM_pc(MEM_pc),
+            .o_MEM_rt(MEM_rt)
+        );
     //-------------MEM BEGIN-------------------
+    assign o_cpu_dmem_mode       = MemMode;
+    assign o_cpu_MemWrite        = MemWrite;
+    assign o_cpu_MemRead         = MemRead;
+    assign MEM_dmem_write_data   = mem_forward_signal ? forwarded_data : MEM_rt; //处理ALU + sx的情况
+    assign o_cpu_dmem_write_data = MEM_dmem_write_data;
+    assign o_cpu_dmem_addr       = MEM_alu_res;
+    assign MEM_dmem_read_data    = i_cpu_dmem_read_data;
     //-------------MEM END---------------------
+    MEM_WB  #(W)
+        cpu_MEM_WB
+        (
+            .clk(clk),
+            .i_MEM_instruction(MEM_instruction),
+            .i_MEM_pc(MEM_pc),
+            .i_MEM_dmem_read_data(MEM_dmem_read_data),
+            .i_MEM_alu_res(MEM_alu_res),
+            .o_WB_instruction(WB_instruction),
+            .o_WB_pc(WB_pc),
+            .o_WB_dmem_read_data(WB_dmem_read_data),
+            .o_WB_alu_res(WB_alu_res)
+        );
     //-------------WB BEGIN--------------------
-    //-------------WB BEGIN--------------------
+    //-------------WB END----------------------
     //=============Control Signals================
-    reg_write_unit    #(W)
-                    cpu_reg_write_unit
-                    (
-                        .i_WB_instruction(WB_instruction),
-                        .RegDst(RegDst),
-                        .MemtoReg(MemtoReg),
-                        .RegWrite(RegWrite)
-                    );
+    //===决定MemRead、MemWrite和MemMode信号===
+    dmem_access_unit    
+        #(W)
+        cpu_dmem_access_unit
+        (
+            .i_MEM_instruction(MEM_instruction),
+            .MemRead(MemRead),
+            .MemWrite(MemWrite),
+            .mode(MemMode)
+        );
+    //===决定MemtoReg和RegWrite信号===
+    reg_write_unit    
+        #(W)
+        cpu_reg_write_unit
+        (
+            .i_WB_instruction(WB_instruction),
+            .RegDst(RegDst),
+            .MemtoReg(MemtoReg),
+            .RegWrite(RegWrite)
+        );
     //===选择写入寄存器的地址===
-    mux3to1       #(W)
-                  reg_write_addr_mux
-                  (
-                    .i_option0(`get_rt(WB_instruction)), //rt
-                    .i_option1(`get_rd(WB_instruction)), //rd
-                    .i_option2(`GPR31),                  //GRP[31] <- pc + 8
-                    .i_select(RegDst),
-                    .o_choice(WB_reg_write_addr)
-                  );
+    mux3to1 #(W)
+            reg_write_addr_mux
+            (
+                .i_option0(`get_rt(WB_instruction)), //rt
+                .i_option1(`get_rd(WB_instruction)), //rd
+                .i_option2(`GPR31),                  //GRP[31] <- pc + 8
+                .i_select(RegDst),
+                .o_choice(WB_reg_write_addr)
+            );
     //===选择写入寄存器的值===            
     mux3to1       #(W)
-                  reg_write_data_muxi_WB_
+                  reg_write_data_mux
                   ( 
                     .i_option0(WB_alu_res),
                     .i_option1(WB_dmem_read_data),
@@ -195,9 +251,14 @@ module CPU #(
                     .i_select(MemtoReg),
                     .o_choice(WB_reg_write_data)
                   );
-    //选择ALU的两个运算数
+    //===选择ALU的两个运算数===
     ALUSrc_selector
         #(W)
-            
+        cpu_ALUSrc_selector
+        (
+
+        );
+    //===Forward Unit===
+        
     
 endmodule  //CPU
