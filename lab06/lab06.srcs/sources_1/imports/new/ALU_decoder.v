@@ -144,7 +144,7 @@ module ALU_decoder	#(
             begin
                 o_alu_ctr = ALU_SUBU;
             end
-        `OP_BLTZ, `OP_BLTZAL, `OP_BGEZ, `OP_BGEZAL:
+        `OP_REGIMM:
             begin
                 o_alu_ctr = ALU_SLT;    
             end

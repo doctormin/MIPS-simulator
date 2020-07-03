@@ -1,0 +1,61 @@
+Vivado Simulator 2018.3
+Time resolution is 1 ps
+dump finished!
+
+00000000:illegal ALU ctl code xxxx
+
+dump finished!
+
+00000000:illegal ALU ctl code xxxx
+
+Warning: system_tb.TOP_instance.TOP_CPU.cpu_ALU_decoder: opcode not recognized: xxxxxx
+Time: 1500 ns  Iteration: 1  Process: /system_tb/TOP_instance/TOP_CPU/cpu_ALU_decoder/Always48_12  File: D:/Vivado/archlabs/lab06/lab06.srcs/sources_1/imports/new/ALU_decoder.v
+Warning: system_tb.TOP_instance.TOP_CPU.cpu_reg_write_unit: reg_write_unit -> opcode not recognized: xxxxxx
+Time: 1700 ns  Iteration: 1  Process: /system_tb/TOP_instance/TOP_CPU/cpu_reg_write_unit/Always43_18  File: D:/Vivado/archlabs/lab06/lab06.srcs/sources_1/imports/new/reg_write_unit.v
+dump finished!
+
+00000000:illegal ALU ctl code xxxx
+
+Warning: system_tb.TOP_instance.TOP_CPU.cpu_ALU_decoder: opcode not recognized: xxxxxx
+Time: 1500 ns  Iteration: 1  Process: /system_tb/TOP_instance/TOP_CPU/cpu_ALU_decoder/Always48_12  File: D:/Vivado/archlabs/lab06/lab06.srcs/sources_1/imports/new/ALU_decoder.v
+Warning: system_tb.TOP_instance.TOP_CPU.cpu_reg_write_unit: reg_write_unit -> opcode not recognized: xxxxxx
+Time: 1700 ns  Iteration: 1  Process: /system_tb/TOP_instance/TOP_CPU/cpu_reg_write_unit/Always43_18  File: D:/Vivado/archlabs/lab06/lab06.srcs/sources_1/imports/new/reg_write_unit.v
+dump finished!
+
+00000000:illegal ALU ctl code xxxx
+
+Warning: system_tb.TOP_instance.TOP_CPU.cpu_ALU_decoder: opcode not recognized: xxxxxx
+Time: 1500 ns  Iteration: 1  Process: /system_tb/TOP_instance/TOP_CPU/cpu_ALU_decoder/Always48_12  File: D:/Vivado/archlabs/lab06/lab06.srcs/sources_1/imports/new/ALU_decoder.v
+Warning: system_tb.TOP_instance.TOP_CPU.cpu_reg_write_unit: reg_write_unit -> opcode not recognized: xxxxxx
+Time: 1700 ns  Iteration: 1  Process: /system_tb/TOP_instance/TOP_CPU/cpu_reg_write_unit/Always43_18  File: D:/Vivado/archlabs/lab06/lab06.srcs/sources_1/imports/new/reg_write_unit.v
+dump finished!
+
+00000000:illegal ALU ctl code xxxx
+
+Warning: system_tb.TOP_instance.TOP_CPU.cpu_ALU_decoder: opcode not recognized: xxxxxx
+Time: 1500 ns  Iteration: 1  Process: /system_tb/TOP_instance/TOP_CPU/cpu_ALU_decoder/Always48_12  File: D:/Vivado/archlabs/lab06/lab06.srcs/sources_1/imports/new/ALU_decoder.v
+Warning: system_tb.TOP_instance.TOP_CPU.cpu_reg_write_unit: reg_write_unit -> opcode not recognized: xxxxxx
+Time: 1700 ns  Iteration: 1  Process: /system_tb/TOP_instance/TOP_CPU/cpu_reg_write_unit/Always43_18  File: D:/Vivado/archlabs/lab06/lab06.srcs/sources_1/imports/new/reg_write_unit.v
+dump finished!
+
+00000000:illegal ALU ctl code xxxx
+
+Warning: system_tb.TOP_instance.TOP_CPU.cpu_ALU_decoder: opcode not recognized: xxxxxx
+Time: 1500 ns  Iteration: 1  Process: /system_tb/TOP_instance/TOP_CPU/cpu_ALU_decoder/Always48_12  File: D:/Vivado/archlabs/lab06/lab06.srcs/sources_1/imports/new/ALU_decoder.v
+Warning: system_tb.TOP_instance.TOP_CPU.cpu_reg_write_unit: reg_write_unit -> opcode not recognized: xxxxxx
+Time: 1700 ns  Iteration: 1  Process: /system_tb/TOP_instance/TOP_CPU/cpu_reg_write_unit/Always43_18  File: D:/Vivado/archlabs/lab06/lab06.srcs/sources_1/imports/new/reg_write_unit.v
+dump finished!
+
+00000000:illegal ALU ctl code xxxx
+
+Warning: system_tb.TOP_instance.TOP_CPU.cpu_ALU_decoder: opcode not recognized: xxxxxx
+Time: 1500 ns  Iteration: 1  Process: /system_tb/TOP_instance/TOP_CPU/cpu_ALU_decoder/Always48_12  File: D:/Vivado/archlabs/lab06/lab06.srcs/sources_1/imports/new/ALU_decoder.v
+Warning: system_tb.TOP_instance.TOP_CPU.cpu_reg_write_unit: reg_write_unit -> opcode not recognized: xxxxxx
+Time: 1700 ns  Iteration: 1  Process: /system_tb/TOP_instance/TOP_CPU/cpu_reg_write_unit/Always43_18  File: D:/Vivado/archlabs/lab06/lab06.srcs/sources_1/imports/new/reg_write_unit.v
+dump finished!
+
+00000000:illegal ALU ctl code xxxx
+
+Warning: system_tb.TOP_instance.TOP_CPU.cpu_ALU_decoder: opcode not recognized: xxxxxx
+Time: 1500 ns  Iteration: 1  Process: /system_tb/TOP_instance/TOP_CPU/cpu_ALU_decoder/Always48_12  File: D:/Vivado/archlabs/lab06/lab06.srcs/sources_1/imports/new/ALU_decoder.v
+Warning: system_tb.TOP_instance.TOP_CP

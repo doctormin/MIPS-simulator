@@ -7,7 +7,7 @@ INFO: [VRFC 10-2263] Analyzing Verilog file "D:/Vivado/archlabs/lab06/lab06.srcs
 INFO: [VRFC 10-311] analyzing module ALU_decoder
 INFO: [VRFC 10-2263] Analyzing Verilog file "D:/Vivado/archlabs/lab06/lab06.srcs/sources_1/imports/new/CPU.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module CPU
-INFO: [VRFC 10-2458] undeclared symbol WB_alu_res, assumed default net type wire [D:/Vivado/archlabs/lab06/lab06.srcs/sources_1/imports/new/CPU.v:228]
+INFO: [VRFC 10-2458] undeclared symbol WB_alu_res, assumed default net type wire [D:/Vivado/archlabs/lab06/lab06.srcs/sources_1/imports/new/CPU.v:230]
 INFO: [VRFC 10-2263] Analyzing Verilog file "D:/Vivado/archlabs/lab06/lab06.srcs/sources_1/imports/new/EX_MEM.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module EX_MEM
 INFO: [VRFC 10-2263] Analyzing Verilog file "D:/Vivado/archlabs/lab06/lab06.srcs/sources_1/imports/new/ID_EX.v" into library xil_defaultlib
