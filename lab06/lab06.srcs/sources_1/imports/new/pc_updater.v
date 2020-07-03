@@ -35,6 +35,8 @@ module pc_updater #
                     /*JR*/
                     input         i_EX_isJR, //若EX stage的指令是JR, 则为高电平
                     input [W-1:0] i_EX_rs,   //JR的跳转地址，即rs
+                    input [W-1:0] i_rs_forward_signal, 
+                    input         i_forwarded_data,//JR的跳转地址，即rs(forwarded)
                     /*Brach*/
                     input         i_EX_branch_taken,
                     input         i_EX_branch_des,
@@ -59,8 +61,8 @@ always @(*) begin
         end
 
     else 
-        if(i_EX_isJR)
-            o_new_pc = i_EX_rs;
+        if(i_EX_isJR) 
+            o_new_pc = i_rs_forward_signal ? i_forwarded_data : i_EX_rs;
 
     else 
         if(i_EX_branch_taken) begin

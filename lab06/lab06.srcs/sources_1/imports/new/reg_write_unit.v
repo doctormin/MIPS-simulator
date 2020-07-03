@@ -43,11 +43,18 @@ module reg_write_unit #
     always @(*) begin
         case(`get_op(i_instruction)) 
         `OP_R: 
-            begin
-                RegWrite = 1;
-                MemtoReg = alu_res;
-                RegDst   = rd; 
-            end     
+            if(`isJR(i_instruction))
+                begin
+                    RegWrite = 0;
+                    MemtoReg = 0; // don't care
+                    RegDst   = 0; // don't care  
+                end
+            else
+                begin
+                    RegWrite = 1;
+                    MemtoReg = alu_res;
+                    RegDst   = rd; 
+                end     
         `OP_ADDI, `OP_ADDIU, `OP_ANDI, `OP_ORI, `OP_XORI, `OP_SLTI, `OP_SLTIU, `OP_LUI:
             begin
                 RegWrite = 1;
@@ -67,7 +74,7 @@ module reg_write_unit #
                 RegWrite = 1;
                 RegDst   = rt; 
             end
-        `OP_BEQ, `OP_BNE, `OP_BGTZ, `OP_BLEZ, `BGEZ, `BLTZ, `OP_J, `OP_JR, `OP_SB, `OP_SH, `OP_SW:
+        `OP_BEQ, `OP_BNE, `OP_BGTZ, `OP_BLEZ, `BGEZ, `BLTZ, `OP_J, `OP_SB, `OP_SH, `OP_SW:
             begin
                 RegWrite = 0;
                 MemtoReg = 0; // don't care

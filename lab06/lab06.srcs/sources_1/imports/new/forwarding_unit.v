@@ -46,7 +46,11 @@ module forwarding_unit
             .use_rs(EX_use_rs),
             .use_rt(EX_use_rt)
         );
-    
+    initial begin
+        o_rs_forward_signal = 0;
+        o_rt_forward_signal = 0;
+        o_mem_forward_signal = 0;
+    end
     always @(*) begin
         o_rs_forward_signal  = 0;
         o_rt_forward_signal  = 0;

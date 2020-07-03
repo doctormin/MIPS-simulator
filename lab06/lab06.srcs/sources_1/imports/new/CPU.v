@@ -105,6 +105,8 @@ module CPU #(parameter W = 32)
                     .i_EX_rs(EX_rs),  
                     .i_EX_branch_taken(EX_branch_taken),
                     .i_EX_branch_des(EX_branch_des),
+                    .i_rs_forward_signal(rs_forward_signal),
+                    .i_forwarded_data(forwarded_data),
                     .o_new_pc(IF_new_pc),
                     .flush_ID_EX(flush_ID_EX),
                     .flush_IF_ID(flush_IF_ID)
