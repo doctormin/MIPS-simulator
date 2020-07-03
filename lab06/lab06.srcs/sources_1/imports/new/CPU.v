@@ -211,7 +211,7 @@ module CPU #(
             .i_MEM_RegWrite(MEM_RegWrite),
             .i_MEM_reg_write_addr(MEM_reg_write_addr),
             .i_MEM_reg_write_data(MEM_reg_write_data),
-            
+
             .o_WB_instruction(WB_instruction),
             .o_WB_pc(WB_pc),
             .o_WB_dmem_read_data(WB_dmem_read_data),
@@ -222,7 +222,7 @@ module CPU #(
         );
     //-------------WB BEGIN--------------------
     //-------------WB END----------------------
-    //=============Control Signals================
+    //=============Control================
     //===决定MemRead、MemWrite和MemMode信号===
     dmem_access_unit    
         #(W)
@@ -270,6 +270,21 @@ module CPU #(
 
         );
     //===Forward Unit===
-        
+    forwarding_unit #(W)
+        cpu_forwarding_unit
+        (
+            .i_EX_instruction(EX_instruction),
+            .i_WB_reg_write_data(WB_reg_write_data), 
+            .i_MEM_reg_write_data(MEM_reg_write_data),    
+            .i_WB_reg_write_addr(WB_reg_write_addr), 
+            .i_MEM_reg_write_addr(MEM_reg_write_addr),  
+            .i_WB_RegWrite(WB_RegWrite),       
+            .i_MEM_RegWrite(MEM_RegWrite),
+
+            .o_forwarded_data(forwarded_data),
+            .o_rs_forward_signal(rs_forward_signal),        //高电平意味着forward data到ALU op1
+            .o_rt_forward_signal(rt_forward_signal),        //高电平意味着forward data到ALU op2
+            .o_mem_forward_signal(mem_forward_signal)
+        );
     
 endmodule  //CPU

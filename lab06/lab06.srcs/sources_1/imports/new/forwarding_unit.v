@@ -20,7 +20,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-module forwaring_unit 
+module forwarding_unit 
     #(parameter W = 32)
     (
         input [W-1:0] i_EX_instruction,
