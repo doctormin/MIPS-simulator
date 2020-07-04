@@ -39,7 +39,7 @@ module pc_updater #
                     input [W-1:0] i_forwarded_data,//JR的跳转地址，即rs(forwarded)
                     /*Brach*/
                     input         i_EX_branch_taken,
-                    input         i_EX_branch_des,
+                    input [W-1:0] i_EX_branch_des,
                     
                     output reg [W-1:0] o_new_pc,
                     //若branch taken, 要flash两个pipeline reg
