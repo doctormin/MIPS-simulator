@@ -1,0 +1,26 @@
+
+a.out:     file format elf32-bigmips
+
+
+Disassembly of section .text:
+
+00000000 <DES2-0xc>:
+   0:	25080002 	addiu	t0,t0,2
+   4:	25290002 	addiu	t1,t1,2
+   8:	11090002 	beq	t0,t1,14 <DES>
+
+0000000c <DES2>:
+   c:	254a0000 	addiu	t2,t2,0
+  10:	15090002 	bne	t0,t1,1c <DES3>
+
+00000014 <DES>:
+  14:	08000003 	j	c <DES2>
+
+00000018 <DES4>:
+  18:	0c000008 	jal	20 <OUT>
+
+0000001c <DES3>:
+  1c:	1d00fffe 	bgtz	t0,18 <DES4>
+
+00000020 <OUT>:
+  20:	00000000 	nop

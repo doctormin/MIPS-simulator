@@ -1,0 +1,14 @@
+    addiu $t0, 2
+    addiu $t1, 2
+    beq   $t0, $t1, DES
+DES2:
+    addiu $t2, 0
+    bne   $t0, $t1, DES3
+DES:
+    J     DES2
+DES4:
+    JAL   OUT
+DES3:
+    bgtz  $t0, DES4:
+OUT:
+    nop

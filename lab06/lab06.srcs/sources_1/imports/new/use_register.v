@@ -20,10 +20,6 @@ wire [`fun] fun    = `get_fun(instruction);
             use_rs = 0;
             use_rt = 0;
         end
-        /*不需要，因为实际上用�?$zero
-        if(opcode == `OP_R && (fun == `FUN_SLL||fun == `FUN_SRL||fun == `FUN_SRA) 
-            use_rs = 0;
-        */
         if(`isNop(instruction)) begin
             use_rs = 0;
             use_rt = 0;

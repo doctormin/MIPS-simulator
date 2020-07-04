@@ -35,11 +35,12 @@ module instruction_mem #
         for(i = 0; i < memSize; i = i + 1) begin
             I_memory[i] = 0;
         end
-        $readmemh("D:/Vivado/archlabs/lab06/lab06.srcs/sources_1/imports/new/DUMP/test stall caused by load-use/testLoadUse.mem", I_memory);
-        //$readmemh("D:/Vivado/archlabs/lab06/lab06.srcs/sources_1/imports/new/DUMP/test stall and forwarding of jr/testJR.mem", I_memory);
-        //$readmemh("C:/Users/18123/Desktop/lab05/lab05.srcs/sources_1/imports/new/DUMP/ALUtest1.mem", I_memory);
-        //$readmemh("C:/Users/18123/Desktop/lab06/lab06.srcs/sources_1/imports/new/DUMP/BranchJump.mem", I_memory);
-        //$readmemh("C:/Users/18123/Desktop/lab06/lab06.srcs/sources_1/imports/new/DUMP/MemTest.mem", I_memory);
+        //$readmemh("..\..\sources_1\imports\new\DUMP\testLoadUse.mem", I_memory);
+        //$readmemh("..\..\sources_1\imports\new\DUMP\testJR.mem", I_memory);
+        //$readmemh("..\..\sources_1\imports\new\DUMP\ALUtest1.mem", I_memory);
+        $readmemh("..\..\sources_1\imports\new\DUMP\BranchJump.mem", I_memory);
+        //$readmemh("..\..\sources_1\imports\new\DUMP\MemTest.mem", I_memory);
+        
         $display("dump finished!\n");
     end
     always @(*) begin
