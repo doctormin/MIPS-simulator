@@ -11,7 +11,7 @@ Disassembly of section .text:
 
 0000000c <DES2>:
    c:	254a0000 	addiu	t2,t2,0
-  10:	15090002 	bne	t0,t1,1c <DES3>
+  10:	150a0002 	bne	t0,t2,1c <DES3>
 
 00000014 <DES>:
   14:	08000003 	j	c <DES2>

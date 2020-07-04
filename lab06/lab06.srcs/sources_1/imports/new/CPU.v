@@ -144,8 +144,8 @@ module CPU #(parameter W = 32)
                        .i_write_data(WB_reg_write_data),
                        .i_write_addr(WB_reg_write_addr),
                        .i_RegWrite(WB_RegWrite),
-                       .o_read_rs(EX_rs),
-                       .o_read_rt(EX_rt)
+                       .o_read_rs(ID_reg_read_rs),
+                       .o_read_rt(ID_reg_read_rt)
                    );
     //--------------ID END--------------------
     ID_EX   #(W) 
