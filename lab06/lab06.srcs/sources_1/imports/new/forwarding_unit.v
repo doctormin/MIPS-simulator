@@ -78,7 +78,7 @@ module forwarding_unit
             //WB->MEM
             case_indicator = 1;
             if(`isStore(i_MEM_instruction)) 
-                if(MEM_not_nop && MEM_use_rt && MEM_rt_id == i_WB_reg_write_addr) begin
+                if(MEM_use_rt && MEM_rt_id == i_WB_reg_write_addr) begin
                     o_forwarded_data     = i_WB_reg_write_data;
                     o_mem_forward_signal = 1;
                     case_indicator = 2;
