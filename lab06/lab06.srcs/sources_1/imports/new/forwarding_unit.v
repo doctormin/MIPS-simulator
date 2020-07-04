@@ -46,7 +46,8 @@ module forwarding_unit
     wire EX_use_rt;
     wire MEM_use_rs;
     wire MEM_use_rt;
-    reg [2:0] case_indicator;
+    wire MEM_is_store = `isStore(i_MEM_instruction);
+    reg [3:0] case_indicator;
 
     use_register #(32)
         fu_use_reg1
@@ -77,30 +78,33 @@ module forwarding_unit
         if(i_WB_RegWrite && WB_not_nop) begin
             //WB->MEM
             case_indicator = 1;
-            if(`isStore(i_MEM_instruction)) 
-                if(MEM_use_rt && MEM_rt_id == i_WB_reg_write_addr) begin
+            if(MEM_is_store && MEM_use_rt && MEM_rt_id == i_WB_reg_write_addr) 
+                begin
                     o_forwarded_data     = i_WB_reg_write_data;
                     o_mem_forward_signal = 1;
                     case_indicator = 2;
                 end
-            else begin
-                //WB->EX
-                if(EX_use_rs && EX_rs_id == i_WB_reg_write_addr) begin
-                    //转发到rs
-                    o_forwarded_data    = i_WB_reg_write_data;
-                    o_rs_forward_signal = 1;
+            else 
+                begin
                     case_indicator = 3;
-                end 
-                if(EX_use_rt && EX_rt_id == i_WB_reg_write_addr) begin
-                    //转发到rt
-                    o_forwarded_data    = i_WB_reg_write_data;
-                    o_rt_forward_signal = 1;
-                    case_indicator = 4;
+                    //WB->EX
+                    if(EX_use_rs && EX_rs_id == i_WB_reg_write_addr) begin
+                        //转发到rs
+                        o_forwarded_data    = i_WB_reg_write_data;
+                        o_rs_forward_signal = 1;
+                        case_indicator = 4;
+                    end 
+                    if(EX_use_rt && EX_rt_id == i_WB_reg_write_addr) begin
+                        //转发到rt
+                        o_forwarded_data    = i_WB_reg_write_data;
+                        o_rt_forward_signal = 1;
+                        case_indicator = 5;
+                    end
                 end
-            end
         end
         //case2 MEM -> EX
         if(i_MEM_RegWrite && MEM_not_nop) begin
+            case_indicator = 6;
             /*
             if(`isStore(i_EX_instruction)) 
                 case_indicator = 7;
@@ -116,13 +120,13 @@ module forwarding_unit
                     //转发到rs
                     o_forwarded_data    = i_MEM_reg_write_data;
                     o_rs_forward_signal = 1;
-                    case_indicator = 5;
+                    case_indicator = 7;
                 end 
                 if(EX_use_rt && EX_rt_id == i_MEM_reg_write_addr) begin
                     //转发到rt
                     o_forwarded_data    = i_MEM_reg_write_data;
                     o_rt_forward_signal = 1;
-                    case_indicator = 6;
+                    case_indicator = 8;
                 end
         
         end
