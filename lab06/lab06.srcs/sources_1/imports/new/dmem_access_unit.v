@@ -80,6 +80,11 @@ module dmem_access_unit #
                 mode     = word; //Don't care
             end
         endcase
+        if(`isNop(i_MEM_instruction)) begin
+            MemRead  = 0; 
+            MemWrite = 0;
+            mode     = word; //Don't care
+        end
     end
 
 endmodule  //reg_write_unit

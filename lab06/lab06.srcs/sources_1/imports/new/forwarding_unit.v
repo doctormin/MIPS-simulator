@@ -25,6 +25,7 @@ module forwarding_unit
     (
         input [W-1:0] i_EX_instruction,
         input [W-1:0] i_MEM_instruction,
+        input [W-1:0] i_WB_instruction,
         input [W-1:0] i_WB_reg_write_data, i_MEM_reg_write_data,    
         input [`reg]  i_WB_reg_write_addr, i_MEM_reg_write_addr,  
         input         i_WB_RegWrite,       i_MEM_RegWrite,
@@ -39,6 +40,8 @@ module forwarding_unit
     wire [`reg] EX_rt_id  = `get_rt(i_EX_instruction);
     wire [`reg] MEM_rs_id = `get_rs(i_MEM_instruction);
     wire [`reg] MEM_rt_id = `get_rt(i_MEM_instruction);
+    wire WB_not_nop = !`isNop(i_WB_instruction);
+    wire MEM_not_nop = !`isNop(i_MEM_instruction);
     wire EX_use_rs;
     wire EX_use_rt;
     wire MEM_use_rs;
@@ -69,33 +72,35 @@ module forwarding_unit
         o_rs_forward_signal  = 0;
         o_rt_forward_signal  = 0;
         o_mem_forward_signal = 0;
+        o_forwarded_data = {32{1'b0}};
         case_indicator = 0;
-        //case1 WB -> EX
-        if(i_WB_RegWrite) begin
+        if(i_WB_RegWrite && WB_not_nop) begin
+            //WB->MEM
+            case_indicator = 1;
             if(`isStore(i_MEM_instruction)) 
-                //转发到mem
-                if(MEM_use_rt && MEM_rt_id == i_WB_reg_write_addr) begin
+                if(MEM_not_nop && MEM_use_rt && MEM_rt_id == i_WB_reg_write_addr) begin
                     o_forwarded_data     = i_WB_reg_write_data;
                     o_mem_forward_signal = 1;
-                    case_indicator = 1;
+                    case_indicator = 2;
                 end
             else begin
+                //WB->EX
                 if(EX_use_rs && EX_rs_id == i_WB_reg_write_addr) begin
                     //转发到rs
                     o_forwarded_data    = i_WB_reg_write_data;
                     o_rs_forward_signal = 1;
-                    case_indicator = 2;
+                    case_indicator = 3;
                 end 
                 if(EX_use_rt && EX_rt_id == i_WB_reg_write_addr) begin
                     //转发到rt
                     o_forwarded_data    = i_WB_reg_write_data;
                     o_rt_forward_signal = 1;
-                    case_indicator = 3;
+                    case_indicator = 4;
                 end
             end
         end
         //case2 MEM -> EX
-        if(i_MEM_RegWrite) begin
+        if(i_MEM_RegWrite && MEM_not_nop) begin
             /*
             if(`isStore(i_EX_instruction)) 
                 case_indicator = 7;

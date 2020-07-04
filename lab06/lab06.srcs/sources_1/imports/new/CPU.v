@@ -294,6 +294,7 @@ module CPU #(parameter W = 32)
         (
             .i_MEM_instruction(MEM_instruction),
             .i_EX_instruction(EX_instruction),
+            .i_WB_instruction(WB_instruction),
             .i_WB_reg_write_data(WB_reg_write_data), 
             .i_MEM_reg_write_data(MEM_reg_write_data),    
             .i_WB_reg_write_addr(WB_reg_write_addr), 

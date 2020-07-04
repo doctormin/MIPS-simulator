@@ -93,6 +93,11 @@ module reg_write_unit #
                 $warning("%m: reg_write_unit -> opcode not recognized: %06b", `get_op(i_instruction));
             end
         endcase
+        if(`isNop(i_instruction)) begin
+            RegWrite = 0;
+            MemtoReg = 0; // don't care
+            RegDst   = 0; // don't care  
+        end
     end
 
 endmodule  //reg_write_unit

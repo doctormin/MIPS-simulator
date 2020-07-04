@@ -108,6 +108,7 @@
 `define sa     4:0
 `define GPR31 5'b11111
 
+`define isNop(i)            i == {32{1'b0}}
 `define isStore(i)          `get_op(i) == `OP_SB||`get_op(i) == `OP_SW||`get_op(i) == `OP_SH
 `define isLoad(i)           `get_op(i) == `OP_LB||`get_op(i) == `OP_LBU||`get_op(i) == `OP_LH||`get_op(i) == `OP_LHU||`get_op(i) == `OP_LW  
 `define isJump(instruction) `get_op(instruction) == `OP_J 
